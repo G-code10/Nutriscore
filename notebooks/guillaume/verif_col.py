@@ -6,6 +6,8 @@ import pyarrow.dataset as ds
 import re
 import json
 
+#TODO ingredients_text, ingredients, nutriments, product_name
+
 food_paquet = "C:/Users/Administrateur/Documents/Nutriscore/data/food.parquet"
 
 def verif_col_string(col: str):
@@ -25,6 +27,12 @@ def verif_col_string(col: str):
 
 null_compt, percent_null = verif_col_string("brands")
 print(f"Colonne Brands : nombre de valeur nulle : {null_compt} soit {percent_null}%")
+
+null_compt, percent_null = verif_col_string("lang")
+print(f"Colonne lang : nombre de valeur nulle : {null_compt} soit {percent_null}%")
+
+null_compt, percent_null = verif_col_string("nutriscore_grade")
+print(f"Colonne nutriscore_grade : nombre de valeur nulle : {null_compt} soit {percent_null}%")
 
 def verif_col_codeb(col: str):
     ar_col = pq.read_table(food_paquet, columns=[col])
@@ -110,6 +118,11 @@ null_compt, typerr_compt, percent_null, percent_type = verif_col_liststr("ingred
 print(f"Colonne ingredients_tags : nombre de valeur nulle : {null_compt} soit {percent_null}%") 
 print(f"nombre de valeur au mauvais type : {typerr_compt} soit {percent_type}%")
 
+null_compt, typerr_compt, percent_null, percent_type = verif_col_liststr("nova_groups_tags")
+print(f"Colonne nova_groups_tags : nombre de valeur nulle : {null_compt} soit {percent_null}%") 
+print(f"nombre de valeur au mauvais type : {typerr_compt} soit {percent_type}%")
+
+
 def is_date_valide(date_str):
     # passage au regex division par 4 du temps d'éxécution
     return bool(re.match(r"^\d{4}(-\d{2}(-\d{2})?)?$", date_str))
@@ -147,3 +160,24 @@ null_compt, typerr_compt, daterr_compt, percent_null, percent_type, percent_date
 print(f"Colonne data_quality_errors_tags : nombre de valeur nulle : {null_compt} soit {percent_null}%") 
 print(f"nombre de valeur au mauvais type : {typerr_compt} soit {percent_type}%")
 print(f"nombre de date au mauvais format : {daterr_compt} soit {percent_date}%")
+
+def verif_col_int(col: str):
+    ar_col = pq.read_table(food_paquet, columns=[col])
+    val_list = ar_col.to_pylist()
+    null_compt = 0
+    type_compt = 0
+    for valeur in val_list:
+        # print(type(valeur[col]))
+        if valeur[col] is None:
+            null_compt += 1
+        elif not isinstance(valeur[col], int):
+        #     print(valeur[col])
+            type_compt += 1
+    nb_ligne = len(val_list)
+    percent_null = round((null_compt / nb_ligne) * 100, 4)
+    percent_type = round((typerr_compt / nb_ligne) * 100, 2)
+    return null_compt, type_compt, percent_null, percent_type
+
+null_compt, typerr_compt, percent_null, percent_type = verif_col_int("nutriscore_score")
+print(f"Colonne nutriscore_score : nombre de valeur nulle : {null_compt} soit {percent_null}%") 
+print(f"nombre de valeur au mauvais type : {typerr_compt} soit {percent_type}%")
