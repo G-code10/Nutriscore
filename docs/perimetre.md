@@ -8,7 +8,7 @@
 
 [Colonnes retenues]
 [Exemple de donnée] 
-[Raison du choix]
+[Raison du choix / Critère]
 
 <strong>brands</strong>
 Bovetti
@@ -139,42 +139,130 @@ Savoir si l'aliment est transformé ou non,
 ]
 
 <strong>nutriments</strong>
-
+[
+  {
+    "name": "saturated-fat",
+    "value": null,
+    "100g": 10,
+    "serving": null,
+    "unit": "g",
+    "prepared_value": null,
+    "prepared_100g": null,
+    "prepared_serving": null,
+    "prepared_unit": null
+  }, 
+  ...
+]
 
 <strong>nutriscore_grade</strong>
-
+e
+Grade du nutriscore, pas besoin d'argumenté
 
 <strong>nutriscore_score</strong>
-
+25
+Nutriscore, pas besoin d'argumenté
 
 <strong>obsolete</strong>
-
+false / true
+Nous permet de filtrer directement les produits obsolètes.
 
 <strong>origins_tags</strong>
-
+...
 
 <strong>packaging_recycling_tags</strong>
-
+[
+  "en:recycle-in-sorting-bin"
+]
+eco responsable
 
 <strong>packaging_shapes_tags</strong>
-
+[
+  "en:jar",
+  "en:lid"
+]
+Rappel de comment trier le packaging
 
 <strong>popularity_tags</strong>
-
+[
+  "top-75-percent-scans-2024",
+  "top-80-percent-scans-2024",
+  "top-85-percent-scans-2024",
+  "top-90-percent-scans-2024",
+  "top-1000-sg-scans-2024",
+  "top-5000-sg-scans-2024",
+  "top-10000-sg-scans-2024",
+  "top-50000-sg-scans-2024",
+  "top-100000-sg-scans-2024",
+  "top-country-sg-scans-2024",
+  "top-75-percent-scans-2025",
+  "top-80-percent-scans-2025",
+  "top-85-percent-scans-2025",
+  "top-90-percent-scans-2025",
+  "top-50000-gb-scans-2025",
+  "top-100000-gb-scans-2025",
+  "top-country-gb-scans-2025"
+]
 
 <strong>product_name</strong>
-
+[
+  {
+    "lang": "main",
+    "text": "Véritable pâte à tartiner noisettes chocolat noir"
+  },
+  {
+    "lang": "fr",
+    "text": "Véritable pâte à tartiner noisettes chocolat noir"
+  }
+]
+Le nom de notre produit c'est important.
 
 <strong>product_quantity</strong>
-
+350
 
 <strong>quantity</strong>
+350 g
+Hésitation avec la quantité et la quantité du produit, celle-ci a le "g" et l'autre non.
+Les deux peuvent être complémentaire.
 
+<strong>states_tags</strong>
+[
+  "en:to-be-completed",
+  "en:nutrition-facts-completed",
+  "en:ingredients-completed",
+  "en:expiration-date-completed",
+  "en:packaging-code-to-be-completed",
+  "en:characteristics-to-be-completed",
+  "en:origins-to-be-completed",
+  "en:categories-completed",
+  "en:brands-completed",
+  "en:packaging-to-be-completed",
+  "en:quantity-completed",
+  "en:product-name-completed",
+  "en:photos-to-be-validated",
+  "en:packaging-photo-to-be-selected",
+  "en:nutrition-photo-selected",
+  "en:ingredients-photo-selected",
+  "en:front-photo-selected",
+  "en:photos-uploaded"
+]
+Permet d'identifier les cases manquantes d'un produits assez rapidement.
+
+<strong>vitamins_tags</strong>
+[
+  "en:vitamin-e",
+  "en:dl-alpha-tocopheryl-acetate",
+  "en:retinyl-palmitate",
+  "en:cholecalciferol"
+]
+Un plus
 
 </pre>
 
-## Périmètre retenu
+## Ce qu'on écarte et pourquoi
 <hr>
+<pre>
 
-## Périmètre retenu
-<hr>
+[Colonnes écartées]
+[Exemple de donnée] 
+[Pourquoi]
+</pre>
