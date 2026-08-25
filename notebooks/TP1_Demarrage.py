@@ -1,4 +1,5 @@
 import pandas as pd
+import matplotlib as plt
 import numpy as np
 import json
 
@@ -19,7 +20,7 @@ import json
 # renseigné ? les dix marques les plus présentes ? le taux de manquants sur les nutriments clés ( energy_100g ,
 # sugars_100g , salt_100g ) ? qu'est-ce qui vous semble le plus « sale » dans ces données ?;
 
-food_paquet = "../data/food.parquet"
+food_paquet = "data/food.parquet"
 
 # open_food_facts_df = pd.read_parquet(food_paquet, columns=("countries_tags"))
 open_food_facts_df = pd.read_parquet(food_paquet, columns=["countries_tags", "nutriments"])
