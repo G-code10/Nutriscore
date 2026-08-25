@@ -360,3 +360,11 @@ water
 </pre>
 
 ### Seuil de complétude minimal par produit
+<pre>
+Minimum : 0.0
+Maximum : 1.1 (?)
+Moyenne : 0.4133
+Médiane : 0.375
+
+Ce qui veut dire que l'on doit choisir un seuil assez bas, pour éviter de supprimer 50% des données rentrées.
+</pre>
