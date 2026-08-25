@@ -10,6 +10,12 @@
 [Exemple de donnée] 
 [Raison du choix / Critère]
 
+<span style="color:green"><strong>allergens_tags</strong></span>
+[
+  "en:nuts"
+]
+Afin de pouvoir signaler les différents allergènes présent dans le produit
+
 <span style="color:green"><strong>brands</strong></span>
 Bovetti
 Donnée brut, simple texte, importance de connaître la marque. Pour une tracabilité et rassurer la clientèle.
@@ -273,6 +279,9 @@ Un plus
 <pre>
 
 [Colonnes écartées]
-[Exemple de donnée] 
 [Pourquoi]
+
+['data-quality-errors-tags','nutrient_levels_tags']
+Écartées après un premier meeting pour cause que les données présentées peuvent être calculées par nos soins au lieu de faire confiance à l'entrée ou la récupération de ces données
+['additives_n','additives_tags','allergens_tags','brands_tags', ]
 </pre>
