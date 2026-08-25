@@ -18,6 +18,10 @@ Afin de pouvoir signaler les différents allergènes présent dans le produit
 Bovetti
 Donnée brut, simple texte, importance de connaître la marque. Pour une tracabilité et rassurer la clientèle.
 
+<span style="color:green"><strong>categories</strong></span>
+Plant-based foods and beverages, Beverages, Hot beverages, Plant-based beverages, Teas, Tea bags
+Donnée <strong>très importante</strong>, à compléter pour le calcule du nutriscore
+
 <span style="color:green"><strong>code</strong></span>
 0000101209159
 Donnée brut, simple texte, important pour retrouver la donnée grâce au code-barre
@@ -262,7 +266,7 @@ Les deux peuvent être complémentaire.</span>
 ]
 Permet d'identifier les cases manquantes d'un produits assez rapidement.
 
-<strong>vitamins_tags</strong> <span style="color:lightblue">Vérifier si l'info n'est pas ailleurs</span>
+<strong>vitamins_tags</strong> <span style="color:lightblue">Vérifier si l'info n'est pas ailleurs <span style="color:lightgreen">UPDATE : info dans ingredients_tags, MAIS pas les même vitamines, problème de cohérence des informations</span></span>
 [
   "en:vitamin-e",
   "en:dl-alpha-tocopheryl-acetate",
@@ -294,8 +298,9 @@ Ce genre d'exemple, nous avons préféré prendre seulement une sur les deux, ca
 
 ## Décision de périmètre
 
+### Rayons couverts au lancement & colonnes concervées
 
-### Vitamines
+#### Vitamines
 <pre>
 vitamin-a
 vitamin-b1
@@ -310,13 +315,13 @@ vitamin-k
 vitamin-pp
 vitamine-h
 </pre>
-### Énergie
+#### Énergie
 <pre>
 energy
 energy-kj
 energy-kcal
 </pre>
-### Valeur nutritionnelle
+#### Valeur nutritionnelle
 <pre>
 fat
 saturated-fat
@@ -328,7 +333,7 @@ salt
 sodium
 cholesterol
 </pre>
-### Minéraux
+#### Minéraux
 <pre>
 calcium
 iron
@@ -336,20 +341,22 @@ magnesium
 potassium
 zinc
 </pre>
-### Oméga
+#### Oméga
 <pre>
 omega-3-fat
 omega-6-fat
 omega-9-fat
 </pre>
-### Écologie - Recyclage
+#### Écologie - Recyclage
 <pre>
 packaging_recycling_tags
 packaging_shapes_tags
 </pre>
-### Autres...
+#### Autres...
 <pre>
 caffeine
 alcohol
 water
 </pre>
+
+### Seuil de complétude minimal par produit
