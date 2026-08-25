@@ -1,9 +1,7 @@
 # TP2 - Profiling & périmètre
 <hr>
 
-## Périmètre retenu
-<hr>
-
+## Périmètre retenu (avant meeting)
 <pre>
 
 [Colonnes retenues]
@@ -33,7 +31,6 @@ Savoir si les informations sont complètes.
     "en:france"
 ]
 Dans quel pays trouver le produit, pour filtrer c'est important.
-
 <span style="color: red;">
 Colonne écartée
 
@@ -41,8 +38,7 @@ Colonne écartée
 [
     "en:nutrition-value-total-over-105","en:energy-value-in-kcal-does-not-match-value-computed-from-other-nutrients"
 ]
-Récupérer les erreurs pour mettre en avant une erreur de complétion
-</span>
+Récupérer les erreurs pour mettre en avant une erreur de complétion</span>
 
 <span style="color:green"><strong>entry_dates_tags</strong></span>
 [
@@ -129,12 +125,10 @@ Permet d'établir une liste en cas d'alergène en récupérant le span .allergen
 <span style="color:green"><strong>ingredients</strong></span>
 Donnée trop longue...
 À récupérer à la place des trois précédentes, mais possède énormément de keys et values.
-<span style="color: red;">
-Colonne écartée
 
-<strong>lang</strong>
+<span style="color:green"><strong>lang</strong></span>
 fr
-Permet de filtrer par langue</span>
+Permet de filtrer par langue
 
 <span style="color:green"><strong>nova_groups_tags</strong></span>
 [
@@ -183,13 +177,13 @@ Nous permet de filtrer directement les produits obsolètes.
 <strong>origins_tags</strong> <span style="color:lightblue">Vérifier l'info</span>
 ...
 
-<strong>packaging_recycling_tags</strong> <span style="color:yellow">Selon la décision du client</span>
+<span style="color:green"><strong>packaging_recycling_tags</strong></span> <span style="color:yellow">Selon la décision du client</span>
 [
   "en:recycle-in-sorting-bin"
 ]
 eco responsable
 
-<strong>packaging_shapes_tags</strong> <span style="color:yellow">Selon la décision du client</span>
+<span style="color:green"><strong>packaging_shapes_tags</strong></span> <span style="color:yellow">Selon la décision du client</span>
 [
   "en:jar",
   "en:lid"
@@ -198,7 +192,7 @@ Rappel de comment trier le packaging
 
 
 
-<strong>popularity_tags</strong> <span style="color: yellow;">Selon la décision du client</span>
+<span style="color:green"><strong>popularity_tags</strong></span> <span style="color: yellow;">Selon la décision du client</span>
 [
   "top-75-percent-scans-2024",
   "top-80-percent-scans-2024",
@@ -235,10 +229,15 @@ Le nom de notre produit c'est important.
 <span style="color:green"><strong>product_quantity</strong></span>
 350
 
-<strong>quantity</strong>  <span style="color:lightblue">Vérifier si l'info de l'unité n'est pas ailleurs</span>
+<span style="color:green"><strong>product_quantity_unit</strong></span>
+g
+<span style="color: red;">
+Colonne écartée
+
+<strong>quantity</strong>
 350 g
 Hésitation avec la quantité et la quantité du produit, celle-ci a le "g" et l'autre non.
-Les deux peuvent être complémentaire.
+Les deux peuvent être complémentaire.</span>
 
 <span style="color:green"><strong>states_tags</strong></span>
 [
@@ -271,17 +270,86 @@ Permet d'identifier les cases manquantes d'un produits assez rapidement.
   "en:cholecalciferol"
 ]
 Un plus
-
 </pre>
 
-## Ce qu'on écarte et pourquoi
-<hr>
+## <span style="color:red">Ce qu'on écarte et pourquoi</span>
+
 <pre>
 
 [Colonnes écartées]
 [Pourquoi]
 
-['data-quality-errors-tags','nutrient_levels_tags']
-Écartées après un premier meeting pour cause que les données présentées peuvent être calculées par nos soins au lieu de faire confiance à l'entrée ou la récupération de ces données
-['additives_n','additives_tags','allergens_tags','brands_tags', ]
+<strong>Filtre après meeting :</strong>
+['data-quality-errors-tags','nutrient_levels_tags', quantity]
+Écartées après un premier meeting pour cause que les données présentées peuvent être calculées par nos soins au lieu de faire confiance à l'entrée ou la récupération de ces données.
+
+<strong>Information non pertinente :</strong>
+[exemple : 'created_t', 'creator', 'last_editor', ...]
+Pas nécessaire de garder ces colonnes pour connaître qui a ajouté ce produit ou l'a édité.
+
+<strong>Doublons :</strong>
+['countries', 'countries_tags']
+Ce genre d'exemple, nous avons préféré prendre seulement une sur les deux, car cela faisait énormément de redondances dans les données
+</pre>
+
+## Décision de périmètre
+
+
+### Vitamines
+<pre>
+vitamin-a
+vitamin-b1
+vitamin-b2
+vitamin-b6
+vitamin-b9
+vitamin-b12
+vitamin-c
+vitamin-d
+vitamin-e
+vitamin-k
+vitamin-pp
+vitamine-h
+</pre>
+### Énergie
+<pre>
+energy
+energy-kj
+energy-kcal
+</pre>
+### Valeur nutritionnelle
+<pre>
+fat
+saturated-fat
+carbohydrates
+sugars
+fiber
+proteins
+salt
+sodium
+cholesterol
+</pre>
+### Minéraux
+<pre>
+calcium
+iron
+magnesium
+potassium
+zinc
+</pre>
+### Oméga
+<pre>
+omega-3-fat
+omega-6-fat
+omega-9-fat
+</pre>
+### Écologie - Recyclage
+<pre>
+packaging_recycling_tags
+packaging_shapes_tags
+</pre>
+### Autres...
+<pre>
+caffeine
+alcohol
+water
 </pre>
