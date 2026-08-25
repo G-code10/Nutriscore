@@ -10,31 +10,35 @@
 [Exemple de donnée] 
 [Raison du choix / Critère]
 
-<strong>brands</strong>
+<span style="color:green"><strong>brands</strong></span>
 Bovetti
 Donnée brut, simple texte, importance de connaître la marque. Pour une tracabilité et rassurer la clientèle.
 
-<strong>code</strong>
+<span style="color:green"><strong>code</strong></span>
 0000101209159
 Donnée brut, simple texte, important pour retrouver la donnée grâce au code-barre
 
-<strong>completeness</strong>
+<span style="color:green"><strong>completeness</strong></span>
 0.7875
 Savoir si les informations sont complètes.
 
-<strong>countries_tags</strong>
+<span style="color:green"><strong>countries_tags</strong></span>
 [
     "en:france"
 ]
 Dans quel pays trouver le produit, pour filtrer c'est important.
+
+<span style="color: red;">
+Colonne écartée
 
 <strong>data_quality_errors_tags</strong>
 [
     "en:nutrition-value-total-over-105","en:energy-value-in-kcal-does-not-match-value-computed-from-other-nutrients"
 ]
 Récupérer les erreurs pour mettre en avant une erreur de complétion
+</span>
 
-<strong>entry_dates_tags</strong>
+<span style="color:green"><strong>entry_dates_tags</strong></span>
 [
   "2017-03-09",
   "2017-03",
@@ -42,13 +46,13 @@ Récupérer les erreurs pour mettre en avant une erreur de complétion
 ]
 Fonctionne bien avec l'obsolescence des informations, plus pour le côté gestion des données, sans forcément afficher cette info
 
-<strong>food_groups_tags</strong>
+<span style="color:green"><strong>food_groups_tags</strong></span>
 [
   "en:beverages",
   "en:unsweetened-beverages"
 ]
 
-<strong>images</strong>
+<span style="color:green"><strong>images</strong></span>
 [
     {
         "key":"1"
@@ -57,7 +61,7 @@ Fonctionne bien avec l'obsolescence des informations, plus pour le côté gestio
 ]
 Permet d'afficher une petite image du produit
 
-<strong>ingredients_analysis_tags</strong>
+<span style="color:green"><strong>ingredients_analysis_tags</strong></span>
 [
   "en:palm-oil-free",
   "en:maybe-vegan",
@@ -65,7 +69,7 @@ Permet d'afficher une petite image du produit
 ]
 Des informations importantes à récupérer pour l'alimentation de chacun
 
-<strong>ingredients_original_tags</strong>
+<strong>ingredients_original_tags</strong> <span style="color:lightblue">Vérifier avec la prochaine colonne</span>
 [
   "en:hazelnut",
   "en:cocoa dark chocolate",
@@ -76,7 +80,7 @@ Des informations importantes à récupérer pour l'alimentation de chacun
   "en:vanilla-extract"
 ]
 
-<strong>ingredients_tags</strong>
+<span style="color:green"><strong>ingredients_tags</strong></span>
 [
   "en:hazelnut",
   "en:nut",
@@ -99,7 +103,7 @@ Des informations importantes à récupérer pour l'alimentation de chacun
 ]
 Permet d'établir une liste en cas d'alergène
 
-<strong>ingredients_text</strong>
+<span style="color:green"><strong>ingredients_text</strong></span>
 [
   {
     "lang": "main",
@@ -116,19 +120,23 @@ Permet d'établir une liste en cas d'alergène
 ]
 Permet d'établir une liste en cas d'alergène en récupérant le span .allergen
 
-<strong>ingredients</strong>
+<span style="color:green"><strong>ingredients</strong></span>
 Donnée trop longue...
 À récupérer à la place des trois précédentes, mais possède énormément de keys et values.
+<span style="color: red;">
+Colonne écartée
 
 <strong>lang</strong>
 fr
-Permet de filtrer par langue
+Permet de filtrer par langue</span>
 
-<strong>nova_groups_tags</strong>
+<span style="color:green"><strong>nova_groups_tags</strong></span>
 [
   "en:3-processed-foods" (ultra, unprocessed, processed-minimaly etc...)
 ]
 Savoir si l'aliment est transformé ou non, 
+<span style="color: red;">
+Colonne écartée
 
 <strong>nutrient_levels_tags</strong>
 [
@@ -137,15 +145,15 @@ Savoir si l'aliment est transformé ou non,
   "en:sugars-in-high-quantity",
   "en:salt-in-low-quantity"
 ]
-
-<strong>nutriments</strong>
+</span>
+<span style="color:green"><strong>nutriments</strong></span>
 [
   {
     "name": "saturated-fat",
     "value": null,
-    "100g": 10,
+    "100g": 10, <span style="color:lightblue">À vérifier</span>
     "serving": null,
-    "unit": "g",
+    "unit": "g", <span style="color:lightblue">À vérifier</span>
     "prepared_value": null,
     "prepared_100g": null,
     "prepared_serving": null,
@@ -154,35 +162,37 @@ Savoir si l'aliment est transformé ou non,
   ...
 ]
 
-<strong>nutriscore_grade</strong>
+<span style ="color:green"><strong>nutriscore_grade</strong></span>
 e
 Grade du nutriscore, pas besoin d'argumenté
 
-<strong>nutriscore_score</strong>
+<span style ="color:green"><strong>nutriscore_score</strong></span>
 25
 Nutriscore, pas besoin d'argumenté
 
-<strong>obsolete</strong>
+<span style ="color:green"><strong>obsolete</strong></span>
 false / true
 Nous permet de filtrer directement les produits obsolètes.
 
-<strong>origins_tags</strong>
+<strong>origins_tags</strong> <span style="color:lightblue">Vérifier l'info</span>
 ...
 
-<strong>packaging_recycling_tags</strong>
+<strong>packaging_recycling_tags</strong> <span style="color:yellow">Selon la décision du client</span>
 [
   "en:recycle-in-sorting-bin"
 ]
 eco responsable
 
-<strong>packaging_shapes_tags</strong>
+<strong>packaging_shapes_tags</strong> <span style="color:yellow">Selon la décision du client</span>
 [
   "en:jar",
   "en:lid"
 ]
 Rappel de comment trier le packaging
 
-<strong>popularity_tags</strong>
+
+
+<strong>popularity_tags</strong> <span style="color: yellow;">Selon la décision du client</span>
 [
   "top-75-percent-scans-2024",
   "top-80-percent-scans-2024",
@@ -203,7 +213,7 @@ Rappel de comment trier le packaging
   "top-country-gb-scans-2025"
 ]
 
-<strong>product_name</strong>
+<span style="color:green"><strong>product_name</strong></span>
 [
   {
     "lang": "main",
@@ -216,15 +226,15 @@ Rappel de comment trier le packaging
 ]
 Le nom de notre produit c'est important.
 
-<strong>product_quantity</strong>
+<span style="color:green"><strong>product_quantity</strong></span>
 350
 
-<strong>quantity</strong>
+<strong>quantity</strong>  <span style="color:lightblue">Vérifier si l'info de l'unité n'est pas ailleurs</span>
 350 g
 Hésitation avec la quantité et la quantité du produit, celle-ci a le "g" et l'autre non.
 Les deux peuvent être complémentaire.
 
-<strong>states_tags</strong>
+<span style="color:green"><strong>states_tags</strong></span>
 [
   "en:to-be-completed",
   "en:nutrition-facts-completed",
@@ -247,7 +257,7 @@ Les deux peuvent être complémentaire.
 ]
 Permet d'identifier les cases manquantes d'un produits assez rapidement.
 
-<strong>vitamins_tags</strong>
+<strong>vitamins_tags</strong> <span style="color:lightblue">Vérifier si l'info n'est pas ailleurs</span>
 [
   "en:vitamin-e",
   "en:dl-alpha-tocopheryl-acetate",
