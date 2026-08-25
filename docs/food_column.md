@@ -105,7 +105,7 @@
     'unique_scans_n', 
     'unknown_ingredients_n', 
     'unknown_nutrients_tags', 
-    'vitamins_tags', 
+    'vitamins_tags', ###### OK ######
     'with_non_nutritive_sweeteners', 
     'with_sweeteners', 
     'schema_version', 
