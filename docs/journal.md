@@ -10,4 +10,7 @@ Nous l'avons choisi pour sa capacité à lire les colonnes séparémment. Sa ré
 
 # TP2 - PRofiling & périmètre
 
+Renseigné les valeurs vides sur la majorité des colonnes dans le perimetre.
+Il faudra vérifier les colonnes s'approchant des 0% de valeur nulles, ceci est surement dû au fait que la colonnes ont un formattage pré-établi, il faudra éclater la structure et récupérer les valeurs nulles présentes sur les différents éléments de la structure.
+
 ## 

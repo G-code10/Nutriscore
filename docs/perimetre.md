@@ -139,7 +139,7 @@ Colonne ingredients_tags : nombre de valeur nulle : 3340216 soit 72.0422%
   }
 ]
 Permet d'établir une liste en cas d'alergène en récupérant le span .allergen
-Colonne ingredients_text : nombre de valeur nulle : 0 soit 0.0%, ceci est dû au fait que la colonnes ingredients_text a un formattage pré-établi, il faudra éclater la structure et récupérer les valeurs nulles présentes sur les différents éléments de la structure
+Colonne ingredients_text : nombre de valeur nulle : 0 soit 0.0%
 
 <span style="color:green"><strong>ingredients</strong></span>
 Donnée trop longue...
@@ -197,6 +197,7 @@ Colonne nutriscore_score : nombre de valeur nulle : 3255402 soit 70.2129%
 <span style ="color:green"><strong>obsolete</strong></span>
 false / true
 Nous permet de filtrer directement les produits obsolètes.
+Pas de valeur nulle, un bool ne peut être qu'a True ou False
 
 <strong>origins_tags</strong> <span style="color:lightblue">Vérifier l'info</span>
 ...
@@ -252,6 +253,7 @@ Colonne popularity_tags : nombre de valeur nulle : 3085050 soit 66.5388%
   }
 ]
 Le nom de notre produit c'est important.
+Colonne product_name : nombre de valeur nulle : 0 soit 0.00%
 
 <span style="color:green"><strong>product_quantity</strong></span>
 350

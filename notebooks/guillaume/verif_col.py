@@ -5,7 +5,7 @@ import pyarrow.parquet as pq
 import re
 import json
 
-#TODO ingredients_text, ingredients, nutriments, product_name, obsolete
+#TODO nutriments, obsolete
 
 food_paquet = "data/food.parquet"
 
