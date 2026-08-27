@@ -7,6 +7,7 @@
 [Colonnes retenues]
 [Exemple de donnée] 
 [Raison du choix / Critère]
+[Nombre / Pourcentage de valeurs null]
 
 <span style="color:green"><strong>allergens_tags</strong></span>
 [
@@ -17,6 +18,7 @@ Afin de pouvoir signaler les différents allergènes présent dans le produit
 <span style="color:green"><strong>brands</strong></span>
 Bovetti
 Donnée brut, simple texte, importance de connaître la marque. Pour une tracabilité et rassurer la clientèle.
+nombre de valeur nulle : 1595058 soit 34.4%
 
 <span style="color:green"><strong>categories</strong></span>
 Plant-based foods and beverages, Beverages, Hot beverages, Plant-based beverages, Teas, Tea bags
@@ -25,10 +27,14 @@ Donnée <strong>très importante</strong>, à compléter pour le calcule du nutr
 <span style="color:green"><strong>code</strong></span>
 0000101209159
 Donnée brut, simple texte, important pour retrouver la donnée grâce au code-barre
+Colonne code : nombre de valeur nulle : 0 soit 0.0%
+nombre de valeur fausse : 323624 soit 6.98% (code ne respectant pas les 13caractères EAN13)
 
 <span style="color:green"><strong>completeness</strong></span>
 0.7875
 Savoir si les informations sont complètes.
+Colonne completness : nombre de valeur nulle : 18 soit 0.0004%
+nombre de valeur fausse : 4309 soit 0.09% (completeness a 0 ou au dessus de 1.1)
 
 <span style="color:green"><strong>countries_tags</strong></span>
 [
@@ -37,6 +43,7 @@ Savoir si les informations sont complètes.
 Dans quel pays trouver le produit, pour filtrer c'est important.
 <span style="color: red;">
 Colonne écartée
+Colonne countries_tag : nombre de valeur nulle : 9741 soit 0.2101%
 
 <strong>data_quality_errors_tags</strong>
 [
@@ -51,12 +58,16 @@ Récupérer les erreurs pour mettre en avant une erreur de complétion</span>
   "2017"
 ]
 Fonctionne bien avec l'obsolescence des informations, plus pour le côté gestion des données, sans forcément afficher cette info
+Colonne data_quality_errors_tags : nombre de valeur nulle : 4 soit 0.0001%
+nombre de valeur au mauvais type : 0 soit 0.0%
+nombre de date au mauvais format : 2717 soit 0.0586%
 
 <span style="color:green"><strong>food_groups_tags</strong></span>
 [
   "en:beverages",
   "en:unsweetened-beverages"
 ]
+Colonne food_group_tags : nombre de valeur nulle : 43426 soit 0.9366%
 
 <span style="color:green"><strong>images</strong></span>
 [
@@ -74,6 +85,7 @@ Permet d'afficher une petite image du produit
   "en:vegetarian"
 ]
 Des informations importantes à récupérer pour l'alimentation de chacun
+Colonne ingredients_analysis_tags : nombre de valeur nulle : 3262715 soit 70.3707%
 
 <strong>ingredients_original_tags</strong> <span style="color:lightblue">Vérifier avec la prochaine colonne</span>
 [
@@ -85,6 +97,7 @@ Des informations importantes à récupérer pour l'alimentation de chacun
   "en:cocoa-butter",
   "en:vanilla-extract"
 ]
+Colonne ingredients_original_tags : nombre de valeur nulle : 3340219 soit 72.0423%
 
 <span style="color:green"><strong>ingredients_tags</strong></span>
 [
@@ -108,6 +121,7 @@ Des informations importantes à récupérer pour l'alimentation de chacun
   "en:vegetable-extract"
 ]
 Permet d'établir une liste en cas d'alergène
+Colonne ingredients_tags : nombre de valeur nulle : 3340216 soit 72.0422%
 
 <span style="color:green"><strong>ingredients_text</strong></span>
 [
@@ -125,14 +139,17 @@ Permet d'établir une liste en cas d'alergène
   }
 ]
 Permet d'établir une liste en cas d'alergène en récupérant le span .allergen
+Colonne ingredients_text : nombre de valeur nulle : 0 soit 0.0%
 
 <span style="color:green"><strong>ingredients</strong></span>
 Donnée trop longue...
 À récupérer à la place des trois précédentes, mais possède énormément de keys et values.
+Colonne ingredients : nombre de valeur nulle : 3340217 soit 72.04%
 
 <span style="color:green"><strong>lang</strong></span>
 fr
 Permet de filtrer par langue
+Colonne lang : nombre de valeur nulle : 4 soit 0.0%
 
 <span style="color:green"><strong>nova_groups_tags</strong></span>
 [
@@ -141,6 +158,7 @@ Permet de filtrer par langue
 Savoir si l'aliment est transformé ou non, 
 <span style="color: red;">
 Colonne écartée
+Colonne nova_groups_tags : nombre de valeur nulle : 43420 soit 0.9365%
 
 <strong>nutrient_levels_tags</strong>
 [
@@ -169,23 +187,27 @@ Colonne écartée
 <span style ="color:green"><strong>nutriscore_grade</strong></span>
 e
 Grade du nutriscore, pas besoin d'argumenté
+Colonne nutriscore_grade : nombre de valeur nulle : 43447 soit 0.94%
 
 <span style ="color:green"><strong>nutriscore_score</strong></span>
 25
 Nutriscore, pas besoin d'argumenté
+Colonne nutriscore_score : nombre de valeur nulle : 3255402 soit 70.2129%
 
 <span style ="color:green"><strong>obsolete</strong></span>
 false / true
 Nous permet de filtrer directement les produits obsolètes.
+Pas de valeur nulle, un bool ne peut être qu'a True ou False
 
 <strong>origins_tags</strong> <span style="color:lightblue">Vérifier l'info</span>
 ...
 
-<span style="color:green"><strong>packaging_recycling_tags</strong></span> <span style="color:yellow">Selon la décision du client</span>
+<span style="color:green"><strong>packaging_recycling_tags</strong></span> <span style="color:yellow">Selon la décfision du client</span>
 [
   "en:recycle-in-sorting-bin"
 ]
 eco responsable
+Colonne packaging_recycling_tags : nombre de valeur nulle : 43154 soit 0.9308%
 
 <span style="color:green"><strong>packaging_shapes_tags</strong></span> <span style="color:yellow">Selon la décision du client</span>
 [
@@ -193,6 +215,7 @@ eco responsable
   "en:lid"
 ]
 Rappel de comment trier le packaging
+Colonne packaging_shapes_tags : nombre de valeur nulle : 43154 soit 0.9308%
 
 
 
@@ -216,6 +239,7 @@ Rappel de comment trier le packaging
   "top-100000-gb-scans-2025",
   "top-country-gb-scans-2025"
 ]
+Colonne popularity_tags : nombre de valeur nulle : 3085050 soit 66.5388%
 
 <span style="color:green"><strong>product_name</strong></span>
 [
@@ -229,6 +253,7 @@ Rappel de comment trier le packaging
   }
 ]
 Le nom de notre produit c'est important.
+Colonne product_name : nombre de valeur nulle : 0 soit 0.00%
 
 <span style="color:green"><strong>product_quantity</strong></span>
 350
@@ -265,6 +290,7 @@ Les deux peuvent être complémentaire.</span>
   "en:photos-uploaded"
 ]
 Permet d'identifier les cases manquantes d'un produits assez rapidement.
+Colonne states_tags : nombre de valeur nulle : 3 soit 0.0001%
 
 <strong>vitamins_tags</strong> <span style="color:lightblue">Vérifier si l'info n'est pas ailleurs <span style="color:lightgreen">UPDATE : info dans ingredients_tags, MAIS pas les même vitamines, problème de cohérence des informations</span></span>
 [
@@ -275,6 +301,7 @@ Permet d'identifier les cases manquantes d'un produits assez rapidement.
 ]
 Un plus
 </pre>
+Colonne vitamins_tag : nombre de valeur nulle : 2622167 soit 56.5552%
 
 ## <span style="color:red">Ce qu'on écarte et pourquoi</span>
 
@@ -286,6 +313,7 @@ Un plus
 <strong>Filtre après meeting :</strong>
 ['data-quality-errors-tags','nutrient_levels_tags', quantity]
 Écartées après un premier meeting pour cause que les données présentées peuvent être calculées par nos soins au lieu de faire confiance à l'entrée ou la récupération de ces données.
+Colonne data_quality_errors_tags : nombre de valeur nulle : 43069 soit 0.9289%
 
 <strong>Information non pertinente :</strong>
 [exemple : 'created_t', 'creator', 'last_editor', ...]
