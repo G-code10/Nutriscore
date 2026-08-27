@@ -373,6 +373,7 @@ Ce qui veut dire que l'on doit choisir un seuil assez bas, pour éviter de suppr
 
 ## brands
 
+> **Note :** Les marques les plus représentées dans la liste
 - **Cardinalité :** 113784
 
 | Valeur | Distribution |
@@ -385,6 +386,7 @@ Ce qui veut dire que l'on doit choisir un seuil assez bas, pour éviter de suppr
 
 ## code
 
+> **Note :** Cohérent, hors doublons, il y a bien un code bar par produit
 - **Cardinalité :** 1247309
 
 | Valeur | Distribution |
@@ -397,6 +399,7 @@ Ce qui veut dire que l'on doit choisir un seuil assez bas, pour éviter de suppr
 
 ## completeness
 
+> **Note :** Utile pour déterminer le taux de complétion d’un produit, mais la « cardinalité » n’a que peu de sens pour cette donnée.
 - **Cardinalité :** 64
 
 | Valeur | Distribution |
@@ -505,17 +508,10 @@ Ce qui veut dire que l'on doit choisir un seuil assez bas, pour éviter de suppr
 | Porc | 0.06 % |
 | Dinde | 0.05 % |
 
-## ingredients
+### ingredients
 
-- **Cardinalité :** 319998
-
-| Valeur | Distribution |
-|---|---:|
-| [] | 0.38 % |
-| [{"percent_max":100.0,"percent_min":100.0,"is_in_taxonomy":1,"percent_estimate":100.0,"vegan":"no","id":"en:honey","text":"Miel","vegetarian":"yes","ciqual_food_code":"31008","percent":null,"from_palm_oil":null,"ingredients":null,"ecobalyse_code":null,"processing":null,"labels":null,"origins":null,"ecobalyse_proxy_code":null,"quantity":null,"quantity_g":null,"ciqual_proxy_food_code":null}] | 0.10 % |
-| [{"percent_max":100.0,"percent_min":100.0,"is_in_taxonomy":1,"percent_estimate":100.0,"vegan":"no","id":"en:chicken","text":"Poulet","vegetarian":"no","ciqual_food_code":null,"percent":null,"from_palm_oil":null,"ingredients":null,"ecobalyse_code":null,"processing":null,"labels":null,"origins":null,"ecobalyse_proxy_code":null,"quantity":null,"quantity_g":null,"ciqual_proxy_food_code":"36005"}] | 0.07 % |
-| [{"percent_max":100.0,"percent_min":100.0,"is_in_taxonomy":1,"percent_estimate":100.0,"vegan":"no","id":"en:chicken","text":"Poulet","vegetarian":"no","ciqual_food_code":null,"percent":null,"from_palm_oil":null,"ingredients":null,"ecobalyse_code":null,"processing":null,"labels":null,"origins":"en:france","ecobalyse_proxy_code":null,"quantity":null,"quantity_g":null,"ciqual_proxy_food_code":"36005"}] | 0.07 % |
-| [{"percent_max":100.0,"percent_min":100.0,"is_in_taxonomy":1,"percent_estimate":100.0,"vegan":"no","id":"en:egg","text":"Œufs","vegetarian":"yes","ciqual_food_code":"22000","percent":null,"from_palm_oil":null,"ingredients":null,"ecobalyse_code":"egg-indoor-code3","processing":null,"labels":null,"origins":null,"ecobalyse_proxy_code":null,"quantity":null,"quantity_g":null,"ciqual_proxy_food_code":null}] | 0.05 % |
+> **Note :** colonne contenant une structure JSON imbriquée sérialisée sous forme de chaîne de caractères.  
+> Cardinalité et distribution non calculées dans ce profiling ; un traitement spécifique est nécessaire.
 
 ## lang
 
@@ -554,97 +550,6 @@ Ce qui veut dire que l'on doit choisir un seuil assez bas, pour éviter de suppr
 | carbohydrates | 5.94 % |
 | fat | 5.94 % |
 
-## nutriments.value
-
-- **Cardinalité des valeurs extraites :** 533
-- **Type :** sous-colonne issue d'une structure imbriquée
-
-| Valeur | Distribution |
-|---|---:|
-| 0.0 | 15.90 % |
-| 1.0 | 3.36 % |
-| 0.5 | 1.65 % |
-| 0.10000000149011612 | 1.43 % |
-| 2.0 | 1.43 % |
-
-## nutriments.100g
-
-- **Cardinalité des valeurs extraites :** 1787630
-- **Type :** sous-colonne issue d'une structure imbriquée
-
-| Valeur | Distribution |
-|---|---:|
-| 0.0 | 15.12 % |
-| 4.0 | 1.46 % |
-| 0.5 | 1.45 % |
-| 1.0 | 1.12 % |
-| 0.10000000149011612 | 1.10 % |
-
-## nutriments.serving
-
-- **Cardinalité des valeurs extraites :** 1580
-- **Type :** sous-colonne issue d'une structure imbriquée
-
-| Valeur | Distribution |
-|---|---:|
-| 0.0 | 37.03 % |
-| 2.0 | 25.87 % |
-| 4.0 | 9.21 % |
-| 1.0 | 4.46 % |
-| 3.0 | 3.59 % |
-
-## nutriments.unit
-
-- **Cardinalité des valeurs extraites :** 13
-- **Type :** sous-colonne issue d'une structure imbriquée
-
-| Valeur | Distribution |
-|---|---:|
-| g | 74.33 % |
-| kJ | 11.93 % |
-| kcal | 5.99 % |
-| % | 4.75 % |
-|  | 2.05 % |
-
-## nutriments.prepared_value
-
-- **Cardinalité des valeurs extraites :** 16
-- **Type :** sous-colonne issue d'une structure imbriquée
-
-| Valeur | Distribution |
-|---|---:|
-| 0.0 | 17.39 % |
-| 17.0 | 8.70 % |
-| 0.009999999776482582 | 8.70 % |
-| 42.0 | 8.70 % |
-| 0.10000000149011612 | 8.70 % |
-
-## nutriments.prepared_100g
-
-- **Cardinalité des valeurs extraites :** 4842
-- **Type :** sous-colonne issue d'une structure imbriquée
-
-| Valeur | Distribution |
-|---|---:|
-| 0.0 | 7.24 % |
-| 0.5 | 7.03 % |
-| 0.10000000149011612 | 2.11 % |
-| 17.0 | 1.33 % |
-| 1.0 | 1.17 % |
-
-## nutriments.prepared_serving
-
-- **Cardinalité des valeurs extraites :** 16
-- **Type :** sous-colonne issue d'une structure imbriquée
-
-| Valeur | Distribution |
-|---|---:|
-| 0.0 | 17.39 % |
-| 17.0 | 8.70 % |
-| 0.009999999776482582 | 8.70 % |
-| 5.880000114440918 | 8.70 % |
-| 0.014000000432133675 | 8.70 % |
-
 ## nutriments.prepared_unit
 
 - **Cardinalité des valeurs extraites :** 6
@@ -657,6 +562,11 @@ Ce qui veut dire que l'on doit choisir un seuil assez bas, pour éviter de suppr
 | kcal | 8.55 % |
 | % | 0.28 % |
 | % vol | 0.19 % |
+
+> **Note :** Les données suivantes sont associées à chaque name et ne sont donc pas représentatives d’une distribution globale des valeurs.
+
+## nutriments.value
+## nutriments.100g
 
 ## nutriscore_grade
 
@@ -812,8 +722,6 @@ Ce qui veut dire que l'on doit choisir un seuil assez bas, pour éviter de suppr
 | en:soybeans | 9.92 % |
 | en:nuts | 7.07 % |
 
-![Distribution des cardinalités (Minim)](Cardinalité_Min.png)
+![Distribution des cardinalités (Petite)](cardinalite_small.png)
 
-![Distribution des cardinalités (Petite)](Cardinalité_Small.png)
-
-![Distribution des cardinalités (Large)](Cardinalité_Large.png)
+![Distribution des cardinalités (Large)](cardinalite_large.png)
