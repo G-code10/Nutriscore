@@ -40,7 +40,7 @@ Toute modification du code doit passer par une Pull Request (PR) pour être int�
 
 *   **Taille de la PR :** Les PR doivent rester **petites, concises et ciblées** sur une seule fonctionnalité. Cela facilite la relecture et évite les conflits massifs.
 *   **Processus de relecture (Code Review) :**
-    *   Chaque PR doit obligatoirement être relue et approuvée par **Guillaume**.
+    *   Chaque PR doit obligatoirement être relue et approuvée par **2 personnes**.
     *   Le relecteur s'assure de la clarté du code, de l'absence de données brutes dans le commit, et du respect des conventions.
     *   Le code ne peut être fusionné (merge) qu'après approbation (Approve) de la PR.
 
