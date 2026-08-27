@@ -28,9 +28,13 @@ Le format d'un message de commit doit être : `<type>: <description courte et ex
 *   `fix` : Correction d'un bug ou d'une erreur.
 *   `docs` : Modification de la documentation (`README.md`, `CONTRIBUTING.md`).
 
+Un commit en fin de journée est nécessaire, que la feature soit fini ou non.
+
 ---
 
 ## 3. Règles des Pull Requests
+
+En début de journée un fetch/pull est nécessaire pour se mettre à jour sur ce qui a été fait.
 
 Toute modification du code doit passer par une Pull Request (PR) pour être intégrée à `dev`.
 
