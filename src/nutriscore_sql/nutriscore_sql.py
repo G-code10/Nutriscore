@@ -32,11 +32,20 @@ class NutriscoreSQL:
                   print(f"Envoie de la requête: {query}")
 
             self.__cur.execute(query, params)
+            self.__conn.commit()
+
+      def send_file(self, file_path : str):
+            """! Envoie le contenue d'un fichier SQL au serveur courrant"""
+
+            with open(file_path, "r", encoding="utf-8") as file:
+                  sql = file.read()
+
+            self.__cur.execute(sql)
+            self.__conn.commit()
 
       def fetch(self):
             """! Récupère l'itérateur de la dernière requête envoyé"""
             rows = self.__cur.fetchall()
-            self.__conn.commit()
 
             if self.__debug:
                   print(rows)
