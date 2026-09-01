@@ -67,7 +67,8 @@ def check_col_codeb(col: str):
     for valeur in val_list:
         if valeur[col] is None:
             null_compt += 1
-        if len(valeur[col]) > 13 or len(valeur[col]) < 13:
+            continue
+        if len(valeur[col]) != 13:
             false_compt += 1
         # if not isinstance(valeur[col], str):
         #     print(valeur[col])
