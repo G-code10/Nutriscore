@@ -1,5 +1,7 @@
 /data
 .venv
+*.pyc
+
 # Afin de pouvoir travailler avec les brouillons à jour, ces lignes sont commentées
 # /notesbooks/christian
 # /notesbooks/guillaume
