@@ -1,14 +1,17 @@
-DROP TABLE IF EXISTS marques;
-DROP TABLE IF EXISTS categories;
-DROP TABLE IF EXISTS produits;
-DROP TABLE IF EXISTS produits_categories;
+DROP TABLE IF EXISTS marques CASCADE;
+DROP TABLE IF EXISTS categories CASCADE;
+DROP TABLE IF EXISTS produits CASCADE;
+DROP TABLE IF EXISTS produits_categories CASCADE;
 
 -- ============================================
 -- Table: marques
 -- ============================================
 CREATE TABLE marques (
     id      BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    nom     VARCHAR(255) NOT NULL
+    nom     VARCHAR(255) NOT NULL,
+
+    CONSTRAINT uq_nom_marques
+        UNIQUE (nom)
 );
 
 -- ============================================
@@ -29,6 +32,7 @@ CREATE TABLE produits (
     code            BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     marque_id       BIGINT NOT NULL,
     nom             VARCHAR(255) NOT NULL,
+    lang            VARCHAR(255) NOT NULL,
     fiber           SMALLINT,
     proteins        SMALLINT,
     energy          SMALLINT,
