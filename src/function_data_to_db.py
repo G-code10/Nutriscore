@@ -1,4 +1,6 @@
 import pandas as pd
+import numpy as np
+import math
 import sys
 
 sys.path.append(".")
@@ -6,6 +8,7 @@ sys.path.append(".")
 import nutriscore_sql
 from conf import sql_conf_dict as conf
 print("Import effectué")
+
 conf = {
     "database": "nutriscope", 
     "user": "postgres", 
@@ -24,61 +27,120 @@ food_paquet = "data/food_light.parquet"
 print("Récupération du parquet")
 # Récupération et nettoyage des listes : 
 df_products = pd.read_parquet(food_paquet, columns=["code", "brands", "product_name", "nutriments"])
-# df_products.to_parquet("data/food_light.parquet")
+# # df_products.to_parquet("data/food_light.parquet")
+print(f"Parquet récupéré : {food_paquet}")
+
+# print(df_products[df_products['brands'].isna() | df_products['brands'] == ""])
+
 
 
 print("Récupération des marques, envoie en base de donnée les marques ...")
 # Puis je viens boucler sur mon tableau afin d'insérer la donnée en BDD
+NSQL.send_query("INSERT INTO marques (nom) VALUES ('Unknown') ON CONFLICT (nom) DO NOTHING;")
 for brand, _ in df_products.groupby("brands")["brands"]:
-    if brand != "":
+    if brand != "" and brand.lower() != 'nan':
         NSQL.send_query("INSERT INTO marques (nom) VALUES (%s) ON CONFLICT (nom) DO NOTHING;", (str(brand),))
+print("Table marques remplie")
+ 
+def look_for_unit(nutri_dict):
+    unit = nutri_dict.get('unit', 'g')
+    if unit == "&#181;g":
+        unit = 'µg'
+    elif unit == "% vol / *":
+        unit = '% vol'
+    elif unit == "kJ":
+        unit = 'kj'
+    elif unit == "":
+        unit = 2.1
+    return unit 
 
+def change_data_from_unit(unit, nutri_value):
+    """"! Permet de modifier la valeur (nutri_value) selon son unité de mesure"""
+    if unit == "g":
+        return float(nutri_value)
+    elif unit == "mg":
+        return float(nutri_value * 0.001)
+    elif unit == "µg":
+        return float(nutri_value * 0.000001)
+    elif unit == "kj":
+        return float(nutri_value)
+    else:
+        return 0.0
+    
 print("Insertion sur la table Produits")
+loop_count = 0
 for code_col, brands_col, product_name_col, nutriments_col in df_products.itertuples(False, None):
+    # Vérifier si les infos existent
+    if not isinstance(nutriments_col, (np.ndarray, list)) :
+        continue
     # Mes valeurs qui vont être à ajouter à la table produits
-    while len(code_col) < 13 :
-        code_col = "0" + code_col
-    code = code_col
+    
+    code = int(code_col)
     marque_id = ""
     name = ""
     lang = ""
-    fiber = 0 # Par défaut 0
-    proteins = 0 # Par défaut 0
-    energy = 0 # Par défaut 0
-    saturated_fat = 0 # Par défaut 0
-    sugars = 0 # Par défaut 0
-    salt = 0 # Par défaut 0
-    
-    print("Nutriments")
+    fiber = 0.0 # Par défaut 0.0
+    proteins = 0.0 # Par défaut 0.0
+    energy = 0.0 # Par défaut 0.0
+    saturated_fat = 0.0 # Par défaut 0.0
+    sugars = 0.0 # Par défaut 0.0
+    salt = 0.0 # Par défaut 0.0
+
     ############# NUTRIMENTS #############
     # Boucle pour récupérer les nutriments :
+    
     for nutriment_dict in nutriments_col:
+
         if nutriment_dict['name'] == 'fiber' :
-            fiber = nutriment_dict['100g']
+            try:
+                unit = look_for_unit(nutriment_dict)
+                fiber = change_data_from_unit(unit, nutriment_dict['100g'])
+            except (TypeError,ValueError):
+                fiber = 0.0
+
         elif nutriment_dict['name'] == 'proteins' :
-            proteins = nutriment_dict['100g']
+            try:
+                unit = look_for_unit(nutriment_dict)
+                proteins = change_data_from_unit(unit, nutriment_dict['100g'])
+            except (TypeError,ValueError):
+                proteins = 0.0
+
         elif nutriment_dict['name'] == 'energy' :
-            energy = nutriment_dict['100g']
+            try:
+                unit = look_for_unit(nutriment_dict)
+                energy = change_data_from_unit(unit, nutriment_dict['100g'])
+            except (TypeError,ValueError):
+                energy = 0.0
+
         elif nutriment_dict['name'] == 'saturated-fat' :
-            saturated_fat = nutriment_dict['100g']
+            try:
+                unit = look_for_unit(nutriment_dict)
+                saturated_fat = change_data_from_unit(unit, nutriment_dict['100g'])
+            except (TypeError,ValueError):
+                saturated_fat = 0.0
+
         elif nutriment_dict['name'] == 'sugars' :
-            sugars = nutriment_dict['100g']
+            try:
+                unit = look_for_unit(nutriment_dict)
+                sugars = change_data_from_unit(unit, nutriment_dict['100g'])
+            except (TypeError,ValueError):
+                sugars = 0.0
+
         elif nutriment_dict['name'] == 'salt' :
-            salt = nutriment_dict['100g']
+            try:
+                unit = look_for_unit(nutriment_dict)
+                salt = change_data_from_unit(unit, nutriment_dict['100g'])
+            except (TypeError,ValueError):
+                salt = 0.0
 
-    print("Marques ID")
     ############# MARQUE_ID #############
-    NSQL.send_query("SELECT id FROM marques WHERE nom = %s", (brands_col,))
-    for r in NSQL.fetch() : 
-        marque_id = r[0]
+    if str(brands_col).lower() == "nan" or brands_col == "":
+        continue
+    else : 
+        NSQL.send_query("SELECT id FROM marques WHERE nom = %s", (brands_col,))
+        for r in NSQL.fetch() : 
+            marque_id = r[0]
 
-    # df_products['product_name'][i] :
-    # [
-    #     {'lang': 'main', 'text': 'Véritable pâte à tartiner noisettes chocolat noir'},
-    #     {'lang': 'fr', 'text': 'Véritable pâte à tartiner noisettes chocolat noir'}
-    # ]
-
-    print("Nom & langue")
     ############# NOM & LANG #############
     # Boucle pour récupérer le nom et la lang
     for product_name_dict in product_name_col:
@@ -90,6 +152,9 @@ for code_col, brands_col, product_name_col, nutriments_col in df_products.itertu
             lang = "main"
             name = product_name_dict['text']
 
-    print(f"Finalisation, envoie de toutes les données")
-    NSQL.send_query("INSERT INTO produits (code, marque_id, nom, lang, fiber, proteins, energy, saturated-fat, sugars, salt) VALUES (%s);",(code, marque_id, name, lang,fiber, proteins,energy,saturated_fat,sugars,salt))
-    print(f"On recommence")
+    NSQL.send_query("INSERT INTO produits (code, marque_id, nom, lang, fiber, proteins, energy, saturated_fat, sugars, salt) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) ON CONFLICT (code) DO NOTHING;",(code, marque_id, name, lang,fiber, proteins,energy,saturated_fat,sugars,salt,))
+
+    loop_count += 1
+
+print("Tables remplies")
+print(f'Nombre de requêtes : {loop_count} / {len(df_products['code'])}')
