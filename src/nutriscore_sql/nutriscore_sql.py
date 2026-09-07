@@ -31,8 +31,14 @@ class NutriscoreSQL:
             if self.__debug:
                   print(f"Envoie de la requête: {query}")
 
-            self.__cur.execute(query, params)
+            try:
+                  self.__cur.execute(query, params)
+            except:
+                  self.__conn.rollback()
+                  return False
+
             self.__conn.commit()
+            return True
 
       def send_file(self, file_path : str):
             """! Envoie le contenue d'un fichier SQL au serveur courrant"""

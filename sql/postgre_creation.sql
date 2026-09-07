@@ -29,16 +29,16 @@ CREATE TABLE categories (
 -- Table: produits
 -- ============================================
 CREATE TABLE produits (
-    code            BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    code            BIGINT PRIMARY KEY,
     marque_id       BIGINT NOT NULL,
     nom             VARCHAR(255) NOT NULL,
     lang            VARCHAR(255) NOT NULL,
-    fiber           SMALLINT,
-    proteins        SMALLINT,
-    energy          SMALLINT,
-    saturated_fat   SMALLINT,
-    sugars          SMALLINT,
-    salt            SMALLINT,
+    fiber           FLOAT,
+    proteins        FLOAT,
+    energy          FLOAT,
+    saturated_fat   FLOAT,
+    sugars          FLOAT,
+    salt            FLOAT,
 
     CONSTRAINT fk_marques
         FOREIGN KEY (marque_id)
