@@ -74,9 +74,11 @@ diabétique, étudiant petit budget. Objectifs, freins, situation d'usage.
 
 - L'application doit-elle être accessible à des personnes n'ayant aucune connaissance préalable en nutrition ?
 
-## Fonctionnalités
+## Performance
 
 - Quels seront les 2 ou 3 indicateurs clés de performance (KPI) qui vous prouveront que la première version est un succès ?
+
+## Fonctionnalité
 
 - À quel moment précis de leur journée imaginez-vous nos utilisateurs ouvrir l'application ? (Permet d'avoir des informations sur les fonctionnalités et la charge d'info à l'écran)
 
@@ -100,6 +102,52 @@ diabétique, étudiant petit budget. Objectifs, freins, situation d'usage.
 
 # Compte-rendu d'entretien
 
+## Cible
+
+Pas de préférence pour la MVP (Minimum Valuable Product)
+
+Profil typique : Foyer pressé, pendant les courses
+
+## Performance
+
+KPI : 
+- 12 mois
+- 100 000 utilisateurs (inscrits)
+- 30 000 actifs
+- 40% de rebonds
+- 4.2/5 (note)
+
+*Bonus* :
+- Compte (pas pour le lancement)
+- Offre payante
+- Signer 2 partenariats
+
+## Fonctionnalité
+
+Pas certain de cette information : Un système de panier dans l'app
+
+Informations dispo. explication synthétique --> alternatives.
+
+Afficher les sources et données manquantes
+
+## Organisation
+
+Pas de préférence --> Démonstration dans 10 semaines
+
+## Données
+
+**Vrai enjeu**, transparence, une certaine dépendance aux données préexistantes et ajout.
+
+Complément d'info à l'avenir : Prix & Nutriscore (si nécessaire)
+
+Afin de priorisé il faudra filtrer par les données existantes sur le facteur nutritionnel, le prix, les allergènes etc...
+
+## Budget (Bonus)
+
+120 000€ 
+- Conception
+- Dev
+- Hébergement
 
 # Mise à jour des personas - après entretien
 
