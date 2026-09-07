@@ -66,6 +66,38 @@ diabétique, étudiant petit budget. Objectifs, freins, situation d'usage.
 
 > 10 questions pour valider les besoins.
 
+## Cible
+
+- Souhaitez-vous que l'application s'adresse uniquement aux consommateurs français pour le lancement ?
+
+- Parmi nos différents profils cibles, lequel considérez-vous comme la priorité absolue pour notre lancement ?
+
+- L'application doit-elle être accessible à des personnes n'ayant aucune connaissance préalable en nutrition ?
+
+## Fonctionnalités
+
+- Quels seront les 2 ou 3 indicateurs clés de performance (KPI) qui vous prouveront que la première version est un succès ?
+
+- À quel moment précis de leur journée imaginez-vous nos utilisateurs ouvrir l'application ? (Permet d'avoir des informations sur les fonctionnalités et la charge d'info à l'écran)
+
+- La reconnaissance d'images (scanner un produit sans code-barres) est-elle perçue comme un "gadget" ou une fonctionnalité critique ?
+
+## Organisation 
+
+- Comment souhaitez-vous être informés de l'avancement du projet ? (Fréquence, plateforme, ...)
+
+## Données
+
+- Notre matière première est la base Open Food Facts. Quelle est votre tolérance face aux inévitables données manquantes ou erronées que nous allons rencontrer ? 
+
+- Concernant les données, quel est notre périmètre de récupération ? Sur quels pays ?
+
+- Comment fonctionne-t-on pour la priorité des produits avec un Nutriscore équivalent ? Par quel élément prioriser ?
+
+## Budget (Bonus)
+
+- Pour vous proposer un chiffrage adapté, avez-vous une enveloppe budgétaire en tête, même approximative ?
+
 # Compte-rendu d'entretien
 
 
