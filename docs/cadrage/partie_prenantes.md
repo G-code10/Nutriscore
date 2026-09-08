@@ -149,6 +149,60 @@ Afin de priorisé il faudra filtrer par les données existantes sur le facteur n
 - Dev
 - Hébergement
 
-# Mise à jour des personas - après entretien
+# Mise à jour - après entretien
 
 > Ce qui a été confirmé, infirmé, découvert.
+
+## Carte des parties prenantes du projet
+
+<img src ="./asset/Carte_des_parties_prenantes_du_projet_maj.png">
+
+## Personas
+
+### Persona 1 - Philipe
+> 37 ans, père de 2 enfants en bas âge
+
+<img src ="./asset/persona_1_maj.png">
+<details>
+<summary>Pas d'image ? Texte ici ...</summary>
+<pre>
+
+<strong>Objectif</strong> : Pouvoir donner une "meilleure" alimentation à ses enfants et lui-même.
+
+<strong>Freins</strong> : La vaste variété de choix/produits.
+
+<strong>situation d’usage</strong> : En magasin accompagné de ses 2 enfants.
+</pre>
+</details>
+
+### Persona 2 - Clarice
+> 21 ans, célibataire, étudiante
+
+<img src ="./asset/persona_2_maj.png">
+<details>
+<summary>Pas d'image ? Texte ici ...</summary>
+<pre>
+
+<strong>Objectif</strong> : S'alimenter sainement à prix réduit
+
+<strong>Freins</strong> : Budget
+
+<strong>situation d’usage</strong> : Pas le temps de passer 1 heure en magasin, mémoire à faire.
+</pre>
+</details>
+
+### Persona 3 - Xavier
+> 27 ans, diététicien
+
+<img src ="./asset/persona_3_maj.png">
+<details>
+<summary>Pas d'image ? Texte ici ...</summary>
+<pre>
+
+<strong>Objectif</strong> : Accompagner sa clientèle sur comment trouver les bons substitues. 
+
+<strong>Freins</strong> : Différentes app disponibles, laquelle choisir ?
+
+<strong>situation d’usage</strong> : En rendez-vous et/ou en magasin avec son client.
+</pre>
+</details>
