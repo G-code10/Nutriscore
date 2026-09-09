@@ -8,7 +8,7 @@ DROP TABLE IF EXISTS produits_categories CASCADE;
 -- ============================================
 CREATE TABLE marques (
     id      BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    nom     VARCHAR(255) NOT NULL,
+    nom     TEXT NOT NULL,
 
     CONSTRAINT uq_nom_marques
         UNIQUE (nom)
@@ -31,18 +31,15 @@ CREATE TABLE categories (
 CREATE TABLE produits (
     code            BIGINT PRIMARY KEY,
     marque_id       BIGINT NOT NULL,
-    nom             VARCHAR(255) NOT NULL,
+    brand           TEXT NOT NULL,
+    nom             TEXT NOT NULL,
     lang            VARCHAR(255) NOT NULL,
     fiber           FLOAT,
     proteins        FLOAT,
     energy          FLOAT,
     saturated_fat   FLOAT,
     sugars          FLOAT,
-    salt            FLOAT,
-
-    CONSTRAINT fk_marques
-        FOREIGN KEY (marque_id)
-        REFERENCES marques (id)
+    salt            FLOAT
 );
 
 -- ============================================

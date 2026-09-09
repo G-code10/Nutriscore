@@ -1,4 +1,10 @@
 import psycopg2
+from psycopg2.extras import execute_values
+
+import io
+import csv
+
+import pandas as pd
 
 ## @package NutriscoreSQL
 # @brief Connection and query module for postresql server
@@ -57,6 +63,26 @@ class NutriscoreSQL:
                   print(rows)
 
             return rows
+
+      def add_values(self, query : str, values : tuple = ()):
+            """! Envoie une requête SQL d'intertion multiple au serveur courrant"""
+
+            if self.__debug:
+                  print(f"Envoie de la requête: {query}")
+
+            try:
+                  execute_values(self.__cur, query, values) 
+            except psycopg2.OperationalError as e:
+                  print(f"add_values error: {e}")
+                  self.__conn.rollback()
+                  return False
+
+            self.__conn.commit()
+            return True
+
+      def copy_products(self, query, buffer):
+            self.__cur.copy_expert(query, buffer)
+            self.__conn.commit()
 
       def __str__(self):
             return "NutriscoreSQL class"
