@@ -1,63 +1,60 @@
-DROP TABLE IF EXISTS marques CASCADE;
+DROP TABLE IF EXISTS brands CASCADE;
 DROP TABLE IF EXISTS categories CASCADE;
-DROP TABLE IF EXISTS produits CASCADE;
-DROP TABLE IF EXISTS produits_categories CASCADE;
-
+DROP TABLE IF EXISTS products CASCADE;
+DROP TABLE IF EXISTS products_categories CASCADE;
+ 
 -- ============================================
--- Table: marques
+-- Table: brands
 -- ============================================
-CREATE TABLE marques (
+CREATE TABLE brands (
     id      BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    nom     VARCHAR(255) NOT NULL,
-
-    CONSTRAINT uq_nom_marques
-        UNIQUE (nom)
+    name    TEXT NOT NULL,
+ 
+    CONSTRAINT uq_name_brands
+        UNIQUE (name)
 );
-
+ 
 -- ============================================
 -- Table: categories
 -- ============================================
 CREATE TABLE categories (
     id      BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    nom     VARCHAR(255) NOT NULL,
-
-    CONSTRAINT uq_nom_categories
-        UNIQUE (nom)
+    name    VARCHAR(255) NOT NULL,
+ 
+    CONSTRAINT uq_name_categories
+        UNIQUE (name)
 );
-
+ 
 -- ============================================
--- Table: produits
+-- Table: products
 -- ============================================
-CREATE TABLE produits (
+CREATE TABLE products (
     code            BIGINT PRIMARY KEY,
     marque_id       BIGINT NOT NULL,
-    nom             VARCHAR(255) NOT NULL,
+    brand           TEXT NOT NULL,
+    name            TEXT NOT NULL,
     lang            VARCHAR(255) NOT NULL,
     fiber           FLOAT,
     proteins        FLOAT,
     energy          FLOAT,
     saturated_fat   FLOAT,
     sugars          FLOAT,
-    salt            FLOAT,
-
-    CONSTRAINT fk_marques
-        FOREIGN KEY (marque_id)
-        REFERENCES marques (id)
+    salt            FLOAT
 );
-
+ 
 -- ============================================
--- Table: produits_categories (table d'association)
+-- Table: products_categories (table d'association)
 -- ============================================
-CREATE TABLE produits_categories (
+CREATE TABLE products_categories (
     id              BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    categorie_id    BIGINT NOT NULL,
+    category_id    BIGINT NOT NULL,
     produit_id      BIGINT NOT NULL,
-
+ 
     CONSTRAINT fk_categories
-        FOREIGN KEY (categorie_id)
+        FOREIGN KEY (category_id)
         REFERENCES categories (id),
-
-    CONSTRAINT fk_produits
+ 
+    CONSTRAINT fk_products
         FOREIGN KEY (produit_id)
-        REFERENCES produits (code)
+        REFERENCES products (code)
 );
