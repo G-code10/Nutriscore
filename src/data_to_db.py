@@ -1,6 +1,6 @@
 import pandas as pd
-import nutriscore_sql
-import math
+# import nutriscore_sql
+# import math
 import sys
 
 sys.path.append(".")
@@ -28,21 +28,23 @@ food_paquet = "data/food_light.parquet"
 print("Récupération du parquet")
 # Récupération et nettoyage des listes : 
 df_products = pd.read_parquet(food_paquet, columns=["code", "brands", "product_name", "nutriments"])
-# # df_products.to_parquet("data/food_light.parquet")
+# df_products.to_parquet("data/food_light.parquet")
 print(f"Parquet récupéré : {food_paquet}")
 
 # print(df_products[df_products['brands'].isna() | df_products['brands'] == ""])
 # print(df_products['nutriments'])
 
-test_list = [
-    {'name': 'carbohydrates', '100g': 36.0, 'unit': 'g'},
-    {'name': 'proteins', '100g': 8.0, 'unit': 'g'}
-]
-
+print('Création de ma colonne flat_nutriments')
 df_products['flat_nutriments'] = df_products['nutriments'].apply(lambda x : flatten_nutriments(x))
+print('Colonne flat_nutriments finie')
 
+print('Étaler flat_nutriments et suppression de celle-ci et de nutriments')
 df_join = flattening_column_join_and_drop(df_products['flat_nutriments'], df_products, ['nutriments', 'flat_nutriments'])
-print(df_join.head(10))
+print('Jointure et suppression finie')
+
+print('Exportation en parquet')
+df_join.to_parquet("data/cleaned_food_light.parquet")
+print('Exportation finie')
 
 
 # print("Récupération des marques, envoie en base de donnée les marques ...")

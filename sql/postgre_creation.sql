@@ -30,8 +30,7 @@ CREATE TABLE categories (
 -- ============================================
 CREATE TABLE products (
     code            BIGINT PRIMARY KEY,
-    marque_id       BIGINT NOT NULL,
-    brand           TEXT NOT NULL,
+    brand_id       BIGINT NOT NULL,
     name            TEXT NOT NULL,
     lang            VARCHAR(255) NOT NULL,
     fiber           FLOAT,
@@ -48,13 +47,13 @@ CREATE TABLE products (
 CREATE TABLE products_categories (
     id              BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     category_id    BIGINT NOT NULL,
-    produit_id      BIGINT NOT NULL,
+    product_id      BIGINT NOT NULL,
  
     CONSTRAINT fk_categories
         FOREIGN KEY (category_id)
         REFERENCES categories (id),
  
     CONSTRAINT fk_products
-        FOREIGN KEY (produit_id)
+        FOREIGN KEY (product_id)
         REFERENCES products (code)
 );
