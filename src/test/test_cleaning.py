@@ -2,6 +2,9 @@ import pandas as pd
 import pytest
 from src.cleaning import flattening_column_join_and_drop
 
+# TODO :
+# Pour lancer le test $: py -m pytest
+# Si vous lancez avec $: pytest // cela risque de ne pas fonctionner.
 
 def test_flattening_column_join_and_drop():
     """Test the flattening, joining, and dropping pipeline step."""
