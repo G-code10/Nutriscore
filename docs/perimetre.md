@@ -328,71 +328,16 @@ Ce genre d'exemple, nous avons préféré prendre seulement une sur les deux, ca
 
 ### Rayons couverts au lancement & colonnes concervées
 
-#### Vitamines
-<pre>
-vitamin-a
-vitamin-b1
-vitamin-b2
-vitamin-b6
-vitamin-b9
-vitamin-b12
-vitamin-c
-vitamin-d
-vitamin-e
-vitamin-k
-vitamin-pp
-vitamine-h
-</pre>
-#### Énergie
-<pre>
-energy
-energy-kj
-energy-kcal
-</pre>
-#### Valeur nutritionnelle
-<pre>
-fat
-saturated-fat
-carbohydrates
-sugars
-fiber
-proteins
-salt
-sodium
-cholesterol
-</pre>
-#### Minéraux
-<pre>
-calcium
-iron
-magnesium
-potassium
-zinc
-</pre>
-#### Oméga
-<pre>
-omega-3-fat
-omega-6-fat
-omega-9-fat
-</pre>
-#### Écologie - Recyclage
-<pre>
-packaging_recycling_tags
-packaging_shapes_tags
-</pre>
-#### Autres...
-<pre>
-caffeine
-alcohol
-water
-</pre>
+- Boissons (en:beverages)
+
+- Plats préparés (en:meals)
+
+- Snacking sucré (en:sugary-snacks)
+
+- Produits laitiers (en:dairies)
+
+- Céréales du petit-déjeuner (en:breakfast-cereals)
 
 ### Seuil de complétude minimal par produit
-<pre>
-Minimum : 0.0
-Maximum : 1.1 (?)
-Moyenne : 0.4133
-Médiane : 0.375
 
-Ce qui veut dire que l'on doit choisir un seuil assez bas, pour éviter de supprimer 50% des données rentrées.
-</pre>
+Le produit est conservé SI ET SEULEMENT SI les colonnes code, product_name, et l'énergie dans nutriments sont présentes à 100%"

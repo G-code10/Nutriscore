@@ -1,14 +1,15 @@
 DROP TABLE IF EXISTS brands CASCADE;
 DROP TABLE IF EXISTS categories CASCADE;
 DROP TABLE IF EXISTS products CASCADE;
+DROP TABLE IF EXISTS nutriments CASCADE;
 DROP TABLE IF EXISTS products_categories CASCADE;
  
 -- ============================================
 -- Table: brands
 -- ============================================
 CREATE TABLE brands (
-    id      BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    name    TEXT NOT NULL,
+    id              BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    name            TEXT NOT NULL,
  
     CONSTRAINT uq_name_brands
         UNIQUE (name)
@@ -18,8 +19,8 @@ CREATE TABLE brands (
 -- Table: categories
 -- ============================================
 CREATE TABLE categories (
-    id      BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    name    VARCHAR(255) NOT NULL,
+    id              BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    name            VARCHAR(255) NOT NULL,
  
     CONSTRAINT uq_name_categories
         UNIQUE (name)
@@ -30,23 +31,36 @@ CREATE TABLE categories (
 -- ============================================
 CREATE TABLE products (
     code            BIGINT PRIMARY KEY,
-    brand_id       BIGINT NOT NULL,
+    brand_id        BIGINT NOT NULL,
     name            TEXT NOT NULL,
-    lang            VARCHAR(255) NOT NULL,
+    lang            VARCHAR(255) NOT NULL
+);
+
+-- ============================================
+-- Table: nutriments
+-- ============================================
+CREATE TABLE nutriments (
+    id              BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    code            BIGINT NOT NULL,
     fiber           FLOAT,
     proteins        FLOAT,
     energy          FLOAT,
     saturated_fat   FLOAT,
     sugars          FLOAT,
-    salt            FLOAT
+    salt            FLOAT,
+
+    CONSTRAINT fk_nutriments_products
+        FOREIGN KEY (code)
+        REFERENCES products (code)
+        ON DELETE CASCADE
 );
- 
+
 -- ============================================
 -- Table: products_categories (table d'association)
 -- ============================================
 CREATE TABLE products_categories (
     id              BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    category_id    BIGINT NOT NULL,
+    category_id     BIGINT NOT NULL,
     product_id      BIGINT NOT NULL,
  
     CONSTRAINT fk_categories
