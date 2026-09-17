@@ -57,3 +57,8 @@ Notre dépôt Git est conçu pour héberger du **code source**, pas des données
 
 **Ce qui doit être versionné :**
 *   ✅ **Seuls les scripts** qui produisent, téléchargent ou traitent les données sont versionnés (rangés dans le dossier `src/`).
+
+## 5. Rituel d'équipe
+
+Discution de ce qui doit être fait autour d'un café OU par le biais de notre canal privé Teams si nécessaire. Récupération du contenu commit la veille.
+Lors de la création d'une feature, un Excalidraw est à disposition pour marquer nos idée sur un sujet précis.
