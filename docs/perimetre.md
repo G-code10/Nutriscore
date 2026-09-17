@@ -326,7 +326,7 @@ Ce genre d'exemple, nous avons préféré prendre seulement une sur les deux, ca
 
 ## Décision de périmètre
 
-### Rayons couverts au lancement & colonnes concervées
+### Rayons couverts au lancement
 
 - Boissons (en:beverages)
 
@@ -337,6 +337,15 @@ Ce genre d'exemple, nous avons préféré prendre seulement une sur les deux, ca
 - Produits laitiers (en:dairies)
 
 - Céréales du petit-déjeuner (en:breakfast-cereals)
+
+### colonnes concervées
+
+- "code", (code unique)
+- "brands", 
+- "product_name", ('fr' par défaut, si pas trouvé pour le champ 'lang' mettre 'main') 
+- "nutriments", 
+- "categories_tags", 
+- "nutriscore_score"
 
 ### Seuil de complétude minimal par produit
 

@@ -1,7 +1,6 @@
 DROP TABLE IF EXISTS brands CASCADE;
 DROP TABLE IF EXISTS categories CASCADE;
 DROP TABLE IF EXISTS products CASCADE;
-DROP TABLE IF EXISTS nutriments CASCADE;
 DROP TABLE IF EXISTS products_categories CASCADE;
  
 -- ============================================
@@ -33,26 +32,13 @@ CREATE TABLE products (
     code            BIGINT PRIMARY KEY,
     brand_id        BIGINT NOT NULL,
     name            TEXT NOT NULL,
-    lang            VARCHAR(255) NOT NULL
-);
-
--- ============================================
--- Table: nutriments
--- ============================================
-CREATE TABLE nutriments (
-    id              BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    code            BIGINT NOT NULL,
+    lang            VARCHAR(255) NOT NULL,
     fiber           FLOAT,
     proteins        FLOAT,
     energy          FLOAT,
     saturated_fat   FLOAT,
     sugars          FLOAT,
-    salt            FLOAT,
-
-    CONSTRAINT fk_nutriments_products
-        FOREIGN KEY (code)
-        REFERENCES products (code)
-        ON DELETE CASCADE
+    salt            FLOAT
 );
 
 -- ============================================
