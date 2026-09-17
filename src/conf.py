@@ -25,10 +25,14 @@ off_csv_path = cache_dir + "/food.csv"
 # @details Le nom du fichier parquet pour le stockage local ne contenant QUE les colonnes nécessaire à l'application
 off_parquet_path_light = cache_dir + "/food_light.parquet"
 
+off_parquet_path_cat = cache_dir + "/food_categories.parquet"
+
 ## @var off_parquet_path_formated
 # @brief Le nom du fichier parquet formaté
 # @details Le nom du fichier parquet pour le stockage local contenant les données splité et nettoyé des colonnes précédentes désormais inutile
 off_parquet_path_formated = cache_dir + "/food_formated.parquet"
+
+off_parquet_path_formated_cat = cache_dir + "/food_formated_cat.parquet"
 
 ## @var off_parquet_path
 # @brief Le nom du fichier parquet
@@ -45,16 +49,18 @@ sql_conf_dict = {
 nutriments_list = ["fiber", "proteins", "energy", "saturated-fat", "sugars", "salt"]
 
 # Les colonnes chargées et traitées avant insertino en TABLEs
-sel_columns = ["nutriments", "code", "product_name", "brands"]
+sel_columns = ["nutriments", "code", "product_name", "brands", "nutriscore_score"]
 
-# add_brand_query = "INSERT INTO marques (nom) VALUES (%s) ON CONFLICT (nom) DO UPDATE SET nom = EXCLUDED.nom RETURNING id;"
-add_brand_query_ex = "INSERT INTO marques (nom) VALUES %s ON CONFLICT (nom) DO NOTHING;"
-# add_product_query = "INSERT INTO produits (code, marque_id, nom, lang, fiber, proteins, energy, saturated_fat, sugars, salt) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);"
-# add_product_query_ex = "INSERT INTO produits (code, marque_id, brand, nom, lang, fiber, proteins, energy, saturated_fat, sugars, salt) VALUES %s;"
+add_brand_query_ex = "INSERT INTO brands (name) VALUES %s ON CONFLICT (name) DO NOTHING;"
+
+add_categories_query_ex = "INSERT INTO categories (name) VALUES %s ON CONFLICT (name) DO NOTHING;"
+
+add_categories_codes_query_ex = "INSERT INTO products_categories (category_id, product_id) VALUES %s;"
+
 
 copy_product = """
-COPY produits (
-    code, marque_id, brand, nom, lang,
+COPY products (
+    code, brand_id, brand, name, lang, nutriscore, 
     fiber, proteins, energy,
     saturated_fat, sugars, salt
 )
@@ -66,6 +72,21 @@ WITH (
 )
 """
 
-update_marque_id_query = "UPDATE produits p SET marque_id = m.id FROM marques m WHERE p.brand = m.nom;"
+# copy_product = """
+# COPY products (
+#     code, brand_id, brand, name, lang,
+#     nutriments
+# )
+# FROM STDIN
+# WITH (
+#     FORMAT CSV,
+#     DELIMITER E'\\t',
+#     NULL '\\N'
+# )
+# """
 
-finalize_table = "ALTER TABLE produits DROP COLUMN brand;"
+# requête pour construire après insertion initiale le champ "marque_id" par rapport à la colonne (temporaire) brand
+update_brand_id_query = "UPDATE products p SET brand_id = m.id FROM brands m WHERE p.brand = m.name;"
+
+# après "update_brand_id_query", la colonne temporaire "brand" peu être supprimée
+finalize_table = "ALTER TABLE products DROP COLUMN brand;"

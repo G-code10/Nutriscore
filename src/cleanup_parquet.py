@@ -1,6 +1,8 @@
 import os, sys
 sys.path.append(".")
 
+import nutriscope_ean
+
 import time
 import re
 
@@ -48,26 +50,6 @@ def extract_nutriment(liste_nutriments, nom_nutriment):
 
     return None
 
-def check_format(code):
-    # 1. Vérification du format (strictement 8 ou 13 chiffres)
-    if not re.match(r"^(\d{8}|\d{13})$", code):
-        return None
-        
-    # 2. Vérification de la clé de contrôle (somme de contrôle GS1)
-    chiffres = [int(x) for x in code]
-    cle_reelle = chiffres[-1]      # Le dernier chiffre est la clé
-    corps_du_code = chiffres[:-1]   # On isole le reste du code
-    
-    # En partant de la droite vers la gauche, les coefficients alternent toujours (3, 1, 3, 1...)
-    total = sum(num * (3 if i % 2 == 0 else 1) for i, num in enumerate(reversed(corps_du_code)))
-    
-    cle_calculee = (10 - (total % 10)) % 10
-    
-    if cle_calculee != cle_reelle:
-        return None
-    
-    return code
-
 if not os.path.exists(conf.off_parquet_path_light):
     print(f"Le fichier parquet allégé n'est pas présent... Veuillez lancer generate_light_parquet.py pour le généré")
     exit()
@@ -78,8 +60,9 @@ print(f"Temps de chargement du fichier parquet allégé: {time.time() - start}")
 
 start = time.time()
 off_light_extended_df_fr = off_nutriments_tags_df.copy()
+
 for name in conf.nutriments_list:
-    print(f"Génération des données pour: {name}")
+    print(f"\t Génération des données pour: {name}")
     off_light_extended_df_fr[name] = off_light_extended_df_fr['nutriments'].apply(lambda x: extract_nutriment(x, name))
 print(f"Temps de génération des données: {time.time() - start}")
 
@@ -87,9 +70,32 @@ start = time.time()
 off_light_extended_df_fr["short_name"] = off_light_extended_df_fr["product_name"].apply(lambda x: x[0]["text"] if isinstance(x, (list, np.ndarray)) and len(x) > 0 else None)
 print(f"Temps de génération du nom court: {time.time() - start}")
 
+
+
+
+start = time.time()
+off_categories_tags_df = pd.read_parquet(conf.off_parquet_path_cat)
+print(f"Temps de chargement du fichier parquet des catégories: {time.time() - start}")
+
+start = time.time()
+off_categories_tags_df["code_safe"] = 0
+off_categories_tags_df["code_safe"] = off_categories_tags_df["code"].apply(lambda x: nutriscope_ean.EAN(x).get_key())
+
+off_categories_tags_df_bad_ean = off_categories_tags_df[off_categories_tags_df["code_safe"].isna()].copy()
+off_categories_tags_df = off_categories_tags_df[~off_categories_tags_df["code_safe"].isna()].copy()
+
+off_categories_tags_df.drop(columns=['code_safe'], inplace=True)
+
+print(f"Netoyage divers (categories): {time.time() - start}")
+
+
+
+
 start = time.time()
 off_light_extended_df_fr["code_safe"] = 0
-off_light_extended_df_fr["code_safe"] = off_light_extended_df_fr["code"].apply(lambda x: check_format(x))
+off_light_extended_df_fr["code_safe"] = off_light_extended_df_fr["code"].apply(lambda x: nutriscope_ean.EAN(x).get_key())
+
+off_light_extended_df_fr_bad_ean = off_light_extended_df_fr[off_light_extended_df_fr["code_safe"].isna()].copy()
 off_light_extended_df_fr = off_light_extended_df_fr[~off_light_extended_df_fr["code_safe"].isna()].copy()
 
 off_light_extended_df_fr.drop(columns=['nutriments'], inplace=True)
@@ -116,3 +122,8 @@ print(f"Netoyage divers: {time.time() - start}")
 start = time.time()
 off_light_extended_df_fr.to_parquet(conf.off_parquet_path_formated, index=False)
 print(f"Temps de sauvegarde du fichier parquet formaté: {time.time() - start}")
+
+
+start = time.time()
+off_categories_tags_df.to_parquet(conf.off_parquet_path_formated_cat, index=False)
+print(f"Temps de sauvegarde du fichier parquet categories formaté: {time.time() - start}")

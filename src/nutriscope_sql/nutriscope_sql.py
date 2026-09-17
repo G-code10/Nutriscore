@@ -6,15 +6,15 @@ import csv
 
 import pandas as pd
 
-## @package NutriscoreSQL
+## @package NutriscopeSQL
 # @brief Connection and query module for postresql server
 # @details This module manage the connexion to a postgresql server and the miscaleous queries require for the Nutriscope app
 
-class NutriscoreSQL:
+class NutriscopeSQL:
       """! class de gestion et de requêtages du serveur PostgreSQL"""
 
       def __init__(self, conf : dict, password : str):
-            """! Constructeur NutriscoreSQL"""
+            """! Constructeur NutriscopeSQL"""
 
             if not isinstance(conf, dict) or not isinstance(password, str):
                   raise TypeError("Invalid input parameters format.")
