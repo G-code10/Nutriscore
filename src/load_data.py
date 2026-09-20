@@ -52,19 +52,23 @@ def load_data():
     df_copy = df.explode('categories_tags').copy()
     df_copy = df_copy[df_copy['categories_tags'].str.startswith('en:')].dropna()
 
-    print(df_copy['categories_tags'].nunique()) # **:... 105_540 en:... 32_439
+    print(df_copy['categories_tags'].nunique()) # **:... 105_540 en:... 32_439 / 33_459 (MacOS)
 
     df_categories = df_copy['categories_tags'].unique()
 
-    print(df_categories)
-    # TODO : CONTINUER ICI
+    # Envoi en DB
+    tuples_categories = [(category[3:],)for category in df_categories]
+    query_categories = "INSERT INTO categories (name) VALUES %s ON CONFLICT (name) DO NOTHING"
+    extras.execute_values(cursor, query_categories, tuples_categories)
+    conn.commit() # 0.3s - 33_459 : j'ai constaté qu'il y avait des catégories 'null' 'Undefined'
 
     # 6. Préparation et insertion pour PRODUCTS
     print("Insertion des produits...")
-
-
-    # 7. Préparation et insertion pour NUTRIMENTS
-    print("Insertion des nutriments...")
+    # code, nutriscore c'est bon
+    # Pour brand_id je dois faire une requête SQL et merge avec le df de base par brands - brand_name
+    # Pour name et lang, je dois exploser product_name
+    # Pour les nutriments je dois exploser nutriments et ne garder que 6 nutriments : salt, sugars, saturated-fat, energy, proteins, fiber
+    
 
     # Validation finale et fermeture
     conn.commit()
