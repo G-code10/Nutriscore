@@ -31,6 +31,7 @@ CREATE TABLE categories (
 CREATE TABLE products (
     code            BIGINT PRIMARY KEY,
     brand_id        BIGINT NOT NULL,
+    brand           TEXT NOT NULL,
     name            TEXT NOT NULL,
     lang            VARCHAR(255) NOT NULL,
     nutriscore      FLOAT,
