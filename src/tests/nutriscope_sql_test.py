@@ -11,12 +11,13 @@ result = []
 result.append([('id', 'bigint', 'NO', None)
                , ('name', 'text', 'NO', None)])
 result.append([('id', 'bigint', 'NO', None)
-               , ('name', 'character varying', 'NO', None)])
+               , ('name', 'text', 'NO', None)])
 result.append([('code', 'bigint', 'NO', None)
-               , ('marque_id', 'bigint', 'NO', None)
+               , ('brand_id', 'bigint', 'NO', None)
                , ('brand', 'text', 'NO', None)
                , ('name', 'text', 'NO', None)
                , ('lang', 'character varying', 'NO', None)
+               ,  ('nutriscore', 'double precision', 'YES', None)
                , ('fiber', 'double precision', 'YES', None)
                , ('proteins', 'double precision', 'YES', None)
                , ('energy', 'double precision', 'YES', None)
@@ -25,10 +26,10 @@ result.append([('code', 'bigint', 'NO', None)
                , ('salt', 'double precision', 'YES', None)])
 result.append([('id', 'bigint', 'NO', None)
                , ('category_id', 'bigint', 'NO', None)
-               , ('produit_id', 'bigint', 'NO', None)])
+               , ('product_id', 'bigint', 'NO', None)])
 
 # Sortie après inser/select d'un produit
-result.append([(598745298751, 1, 'Carrouf', 'THE Produit', 'fr', 0.5, 1.25, 3350.0, 0.5, 10.0, 42.0)])
+result.append([(598745298751, 1, 'Carrouf', 'THE Produit', 'fr', 12.0, 0.5, 1.25, 3350.0, 0.5, 10.0, 42.0)])
 
 # Sortie après inser/select de brands
 result.append([(1, 'Sup-per U')
@@ -81,8 +82,8 @@ def test_dsl():
     for brand in values:
         NSQL.send_query("INSERT INTO brands (name) VALUES (%s);", (brand,))
 
-    NSQL.send_query("INSERT INTO products (code, marque_id, brand, name, lang, fiber, proteins, energy, saturated_fat, sugars, salt) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);"
-                    ,(598745298751, 1, "Carrouf", "THE Produit", "fr", 0.5, 1.25, 3350, 0.5, 10, 42,))
+    NSQL.send_query("INSERT INTO products (code, brand_id, brand, name, lang, nutriscore, fiber, proteins, energy, saturated_fat, sugars, salt) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);"
+                    ,(598745298751, 1, "Carrouf", "THE Produit", "fr", 12.0, 0.5, 1.25, 3350, 0.5, 10, 42,))
 
     NSQL.send_query("SELECT * from products;")
     current_test = check_output(NSQL.fetch(), current_test)
