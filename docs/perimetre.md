@@ -326,26 +326,45 @@ Ce genre d'exemple, nous avons préféré prendre seulement une sur les deux, ca
 
 ## Décision de périmètre
 
-### Rayons couverts au lancement
-
-- Boissons (en:beverages)
-
-- Plats préparés (en:meals)
+### Rayons couverts au lancement classé du plus grand nombre au plus petits
 
 - Snacking sucré (en:sugary-snacks)
 
-- Produits laitiers (en:dairies)
+- Poisson/Viande/Oeufs ou produits a base de (en:fish-meat-eggs)
 
-- Céréales du petit-déjeuner (en:breakfast-cereals)
+- Céréales/Patates ou produits a base de (en:cereals-and-potatoes)
+
+- Lait et produit laitiers (en:milk-and-dairy-products)
+
+- Boissons (en:beverages)
+
+- Sauces/graisse/huiles (en:fats-and-sauces)
+
+- Fruit et légumes ou produits a base de (en:fruits-and-vegetables)
+
+- Plats préparés (en:composite-foods)
+
+- Snacking salé (en-salty-snacks)
+
+### Rayons exclus
+
+- unknown (nan)
+
+- Boissons alcolisés (en:alcoholic-beverages)
+
+- Nourriture et lait pour bébé, nutriscore totalement absent (en:baby-foods-and-milks)
 
 ### colonnes concervées
 
-- "code", (code unique)
-- "brands", 
-- "product_name", ('fr' par défaut, si pas trouvé pour le champ 'lang' mettre 'main') 
-- "nutriments", 
-- "categories_tags", 
+- "code" (code unique)
+- "brands"
+- "categories_tags"
+- "product_name" ('fr' par défaut, si pas trouvé pour le champ 'lang' mettre 'main')
+- "ingredients_text", 
+- "nova_group"
 - "nutriscore_score"
+- "nutriments"(au moins energy-kcal_100g, sugars_100g, salt_100g, fiber_100g, fruit-vegetables-legumes_100g, a réanalyser pour vois si les autres nutriment serait utile) 
+- "serving_size"
 
 ### Seuil de complétude minimal par produit
 
