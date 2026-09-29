@@ -369,3 +369,24 @@ Ce genre d'exemple, nous avons préféré prendre seulement une sur les deux, ca
 ### Seuil de complétude minimal par produit
 
 Le produit est conservé SI ET SEULEMENT SI les colonnes code, product_name, et l'énergie dans nutriments sont présentes à 100%"
+
+### Stratégie de valeurs manquantes par colonne et par usage
+
+| colonne | usage | manquants | décision | pourquoi |
+|---|---|---|---|---|
+| brands | affichage, substitution (même marque) | 34 % | garder NA + drapeau ; « inconnue » à l'affichage seulement | aucune valeur plausible à inventer |
+| categories_tags | substitution, features ML (rayon) | 56 % | règle métier : inclassable si vide et rayon unknown → hors périmètre | sans catégorie, pas de substitution |
+| ingredients_text | assistant, features texte | 72 % | garder NA + drapeau | aucune valeur plausible à inventer |
+| nova_group | affichage, score | 75 % | garder NA + drapeau | dérivée des ingrédients, si ingredient absent = 98.5% de chance que nova absent aussi |
+| nutriscore_grade / _score | cible du modèle, affichage | 34 % | garder ; « unknown » → NA ; jamais imputer | une cible imputée est une cible inventée |
+| energy-kcal_100g | score, affichage, features ML, substitution | 28 % | imputation métier : kJ / 4,184, sinon 4/4/9 ; reste → médiane par rayon dans le pipeline ML | dérivable avant d'être devinée |
+| sugars_100g | score, features ML, affichage | 32 % | garder NA + drapeau sucres_manquant, jamais imputer | une valeur inventée fausserait le score, manque MAR lié à la complétude de la fiche et au rayon |
+| salt_100g / sodium_100g | score, features ML, affichage | 37 % | imputation métier : sel = sodium × 2,5 (et inverse) | relation exacte, zéro risque |
+| fiber_100g | score, features ML, affichage | 62 % | garder NA + drapeau fiber_manquant | MNAR : absence = souvent « pas de fibres » |
+| fruit_vegetables_legumes_100g | score, features ML, affichage | 83 % | NA + drapeau, jamais imputer | a limité aux rayons elle est indiqué, sinon traiter NA comme 0 et l'afficher |
+| serving_size | sel par portion (affichage) | 68 % | a garder, affichage des valeurs pour 100g si NA | utile quand présente, jamais imputée |
+| fat_100g | features ML, contrôle de cohérence, substitution | 28 % | garder NA + drapeau fat_manquant ; métier (énergie − 4 × protéines − 4 × glucides) / 9 possible si les 3 sont présentes; reste → médiane par rayon | MAR : suit la complétude du tableau nutritionnel ; sert de borne haute pour les saturées |
+| proteins_100g | score, features ML, affichage | 28 % | garder NA + drapeau proteines_manquant, reste → médiane par rayon, score non calculable si NA | MAR : manque groupé composante favorable du Nutri-Score |
+| carbohydrates_100g | features ML, contrôle de cohérence, substitution | 28 % | garder NA + drapeau glucides_manquant ; valeurs > 100 → NA ; sert de borne haute pour sugars_100g ; jamais imputée | utile au profil nutritionnel ; une valeur inventée fausserait les contrôles de cohérence |
+| saturated_fat_100g | score, features ML, affichage | 34 % | garder NA + drapeau graisses_sat_manquant, règle métier : si fat_100g < 0,5 g → saturées = 0 ; sinon jamais imputer ; score non calculable si NA | composante directe du Nutri-Score, une valeur inventée fausserait le score |
+| produit sans aucun nutriment clé | — | 27 % | supprimer la ligne | inutilisable pour le score et la substitution |
