@@ -9,33 +9,21 @@ Prérequis :
     - un PostgreSQL démarré avec une base "nutriscope" (conteneur Docker, port 5432).
 
 Lancement, depuis la racine du projet :
-    .venv\\Scripts\\python.exe notebooks\\load_database.py
+    .venv\\Scripts\\python.exe -m notebooks.load_database
 """
 
 from getpass import getpass
 from pathlib import Path
 
-import numpy as np
 import pandas as pd
 import psycopg2
 from psycopg2.extras import execute_values
 
+from src.cleaning import prepare_data
+
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 PERIMETER_PATH = PROJECT_ROOT / "data" / "food_perimeter.parquet"
 SCHEMA_PATH = PROJECT_ROOT / "sql" / "schemas.sql"
-
-COLS = [
-    "energy-kcal_100g",
-    "fat_100g",
-    "saturated-fat_100g",
-    "carbohydrates_100g",
-    "sugars_100g",
-    "fiber_100g",
-    "proteins_100g",
-    "salt_100g",
-]
-
-NUTRISCORE_GRADES = ["a", "b", "c", "d", "e"]
 
 # Colonnes du parquet -> colonnes de la table nutriments
 NUTRIMENTS_COLUMNS = {
@@ -66,40 +54,6 @@ NUTRIMENTS_SQL_COLS = [
 # ---------------------------------------------------------------------------
 # Préparation des données (pandas)
 # ---------------------------------------------------------------------------
-
-def get_first_brand(brands):
-    """Récupère la première marque d'un produit"""
-    if not isinstance(brands, str):
-        return None
-    list_brands = [" ".join(brand.split()).lower() for brand in brands.split(",")]
-    if list_brands[0] == "" or list_brands == []:
-        return None
-    return list_brands[0]
-
-
-def prepare_data(df):
-    """Doublons, marque, Nutri-Score, valeurs impossibles."""
-    # Doublons de codes-barres : on trie du plus rempli au moins rempli,
-    # drop_duplicates() garde la première ligne rencontrée, donc la plus complète.
-    df["not_na_count"] = df.notna().sum(axis=1)
-    df = df.sort_values("not_na_count", ascending=False).drop_duplicates("code")
-    df = df.drop(columns=["not_na_count"])
-
-    df["brand"] = df["brands"].apply(get_first_brand)
-
-    # Liste blanche : plus sûre face à des valeurs inconnues.
-    df["nutriscore_grade"] = df["nutriscore_grade"].where(df["nutriscore_grade"].isin(NUTRISCORE_GRADES))
-
-    # Valeurs impossibles -> NaN (énergie : 0 à 950 kcal, le reste : 0 à 100 g)
-    for col in COLS:
-        if col == "energy-kcal_100g":
-            mask = (df[col] < 0) | (df[col] > 950)
-        else:
-            mask = (df[col] < 0) | (df[col] > 100)
-        df.loc[mask, col] = np.nan
-
-    return df
-
 
 def to_rows(df, columns):
     """Liste de tuples prête pour execute_values, avec None à la place de NaN."""
@@ -158,7 +112,7 @@ def insert_products(cursor, df, brands_id):
 
 
 def insert_products_categories(cursor, df, categories_ids):
-    categories = df[["code", "categories_tags"]].explode("categories_tags")
+    categories = df[["code", "categories_tags"]].explode("categories_tags").dropna()
     categories = categories.rename(columns={"categories_tags": "category"})
 
     food_group = df[["code", "food_group"]].rename(columns={"food_group": "category"})
