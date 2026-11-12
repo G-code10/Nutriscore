@@ -1,6 +1,6 @@
 # Rapport de nettoyage
 
-Généré le 10/11/2026 par `notebooks/cleaning_report.py`, à partir de `data/food_perimeter.parquet`.
+Généré le 12/11/2026 par `notebooks/cleaning_report.py`, à partir de `data/food_perimeter.parquet`.
 Ne pas modifier à la main : relancer le script pour le mettre à jour.
 
 ## Volumétrie
@@ -30,6 +30,10 @@ Les règles sont listées dans leur ordre d'application (celui de `prepare_data`
 | `get_first_brand` | `brand` | marque extraite | 359 217 |
 | `get_first_brand` | `brand` | sans marque exploitable | 97 267 |
 | `deduplicate_codes` | `code` | lignes en double supprimées | 5 |
+| `flag_incoherent` | `is_incoherent` | sucres > glucides + 0,5 g | 269 |
+| `flag_incoherent` | `is_incoherent` | plus de 105 g de nutriments pour 100 g | 267 |
+| `flag_incoherent` | `is_incoherent` | 0 kcal avec au moins 5 g de graisses | 310 |
+| `flag_incoherent` | `is_incoherent` | **au moins un des trois -> True** | 846 |
 
 **Règles non appliquées :**
 

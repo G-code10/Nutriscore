@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import pytest
-from src.cleaning import get_first_brand, clean_nutriscore_grade, bound_values, deduplicate_codes, clean_empty_lists, fill_energy_kcal, fill_salt
+from src.cleaning import get_first_brand, clean_nutriscore_grade, bound_values, deduplicate_codes, clean_empty_lists, fill_energy_kcal, fill_salt, flag_incoherent
 
 # ---------------------------------------------------------------------------
 # get_first_brand
@@ -250,3 +250,74 @@ def test_fill_salt_does_not_modify_input():
     salt = pd.Series([np.nan])
     fill_salt(salt, pd.Series([0.4]))
     assert salt.isna().tolist() == [True]
+
+# ---------------------------------------------------------------------------
+# flag_incoherent
+# ---------------------------------------------------------------------------
+
+def make_product(**changes):
+    """Un produit cohérent (biscuit), dont on modifie seulement les valeurs données."""
+    product = {
+        "energy-kcal_100g": 450.0,
+        "fat_100g": 20.0,
+        "carbohydrates_100g": 60.0,
+        "sugars_100g": 25.0,
+        "proteins_100g": 6.0,
+        "salt_100g": 0.5,
+    }
+    product.update(changes)
+    return pd.DataFrame([product])
+
+def test_flag_incoherent_coherent_product_is_false():
+    assert flag_incoherent(make_product()).tolist() == [False]
+
+# Les sucres font partie des glucides
+def test_flag_incoherent_sugars_above_carbs_is_true():
+    df = make_product(sugars_100g=30.0, carbohydrates_100g=10.0)
+    assert flag_incoherent(df).tolist() == [True]
+
+# Arrondi d'étiquette : jusqu'à 0,5 g d'écart est toléré
+def test_flag_incoherent_sugars_within_tolerance_is_false():
+    df = make_product(sugars_100g=10.4, carbohydrates_100g=10.0)
+    assert flag_incoherent(df).tolist() == [False]
+
+def test_flag_incoherent_total_above_105_is_true():
+    df = make_product(fat_100g=50.0, carbohydrates_100g=50.0, proteins_100g=10.0)
+    assert flag_incoherent(df).tolist() == [True]
+
+def test_flag_incoherent_total_at_105_is_false():
+    df = make_product(fat_100g=40.0, carbohydrates_100g=50.0, proteins_100g=14.5, salt_100g=0.5)
+    assert flag_incoherent(df).tolist() == [False]
+
+# 5 g de graisses apportent au moins 45 kcal
+def test_flag_incoherent_zero_kcal_with_fat_is_true():
+    df = make_product(**{"energy-kcal_100g": 0.0})
+    assert flag_incoherent(df).tolist() == [True]
+
+# Une boisson light peut avoir 0 kcal si elle n'a presque pas de graisses
+def test_flag_incoherent_zero_kcal_without_fat_is_false():
+    df = make_product(**{"energy-kcal_100g": 0.0}, fat_100g=0.0, carbohydrates_100g=0.0, sugars_100g=0.0)
+    assert flag_incoherent(df).tolist() == [False]
+
+# Inconnu n'est pas incohérent : NaN > 10 donne False
+def test_flag_incoherent_missing_carbs_is_false():
+    df = make_product(carbohydrates_100g=np.nan)
+    assert flag_incoherent(df).tolist() == [False]
+
+# Cas du Beef Jerky : les valeurs connues dépassent déjà 105 g, la valeur manquante n'y change rien
+def test_flag_incoherent_total_above_105_with_missing_value_is_true():
+    df = make_product(fat_100g=50.0, carbohydrates_100g=60.0, proteins_100g=np.nan)
+    assert flag_incoherent(df).tolist() == [True]
+
+def test_flag_incoherent_all_missing_is_false():
+    df = make_product(**{col: np.nan for col in make_product().columns})
+    assert flag_incoherent(df).tolist() == [False]
+
+def test_flag_incoherent_one_row_per_product():
+    df = pd.concat([make_product(), make_product(sugars_100g=90.0)], ignore_index=True)
+    assert flag_incoherent(df).tolist() == [False, True]
+
+def test_flag_incoherent_does_not_modify_input():
+    df = make_product()
+    flag_incoherent(df)
+    assert list(df.columns) == list(make_product().columns)

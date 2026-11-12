@@ -14,13 +14,18 @@ from pathlib import Path
 import pandas as pd
 
 from src.cleaning import (
+    FAT_MIN_FOR_ENERGY,
+    MACRO_COLUMNS,
     NUTRIENT_MAX,
+    SUGARS_TOLERANCE,
+    TOTAL_MAX,
     bound_values,
     clean_empty_lists,
     clean_nutriscore_grade,
     deduplicate_codes,
     fill_energy_kcal,
     fill_salt,
+    flag_incoherent,
     get_first_brand,
     prepare_data,
 )
@@ -108,6 +113,20 @@ def apply_rules_with_counts(df):
     df = deduplicate_codes(df)
     rows.append(("deduplicate_codes", "code", "lignes en double supprimées", before - len(df)))
 
+    # 5. Drapeau de fiabilité : le détail des 3 contrôles, puis le total
+    checks = [
+        ("sucres > glucides + " + f"{SUGARS_TOLERANCE} g".replace(".", ","),
+         df["sugars_100g"] > df["carbohydrates_100g"] + SUGARS_TOLERANCE),
+        (f"plus de {TOTAL_MAX} g de nutriments pour 100 g",
+         df[MACRO_COLUMNS].sum(axis=1) > TOTAL_MAX),
+        (f"0 kcal avec au moins {FAT_MIN_FOR_ENERGY} g de graisses",
+         (df["energy-kcal_100g"] == 0) & (df["fat_100g"] >= FAT_MIN_FOR_ENERGY)),
+    ]
+    for effect, check in checks:
+        rows.append(("flag_incoherent", "is_incoherent", effect, int(check.sum())))
+    df["is_incoherent"] = flag_incoherent(df)
+    rows.append(("flag_incoherent", "is_incoherent", "**au moins un des trois -> True**", int(df["is_incoherent"].sum())))
+
     return df, rows, skipped
 
 
@@ -163,7 +182,7 @@ def main():
 
     # Garde-fou : le rapport doit décrire exactement ce que fait prepare_data.
     expected = prepare_data(raw)
-    if len(cleaned) != len(expected) or not cleaned.index.equals(expected.index):
+    if not cleaned.index.equals(expected.index) or list(cleaned.columns) != list(expected.columns):
         raise RuntimeError("Le rapport ne suit plus prepare_data : mettre à jour apply_rules_with_counts.")
 
     REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
