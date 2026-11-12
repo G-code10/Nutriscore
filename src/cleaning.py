@@ -176,6 +176,28 @@ def fill_salt(salt, sodium):
     """
     return salt.fillna(sodium * SALT_PER_SODIUM)
 
+# Tolérances des contrôles de cohérence (arrondis des étiquettes)
+SUGARS_TOLERANCE = 0.5    # g : sucres jusqu'à 0,5 g au-dessus des glucides
+TOTAL_MAX = 105           # g : nutriments pour 100 g, 5 g de marge
+FAT_MIN_FOR_ENERGY = 5    # g : 5 g de graisses = au moins 45 kcal
+MACRO_COLUMNS = ["fat_100g", "carbohydrates_100g", "proteins_100g", "salt_100g"]
+
+def flag_incoherent(df):
+    """
+    Signale les produits dont les nutriments sont impossibles entre eux.
+    Une valeur manquante ne rend jamais un produit incohérent.
+
+    df : un DataFrame avec les colonnes de nutriments pour 100 g.
+    Renvoie une colonne True / False, sans modifier le DataFrame reçu.
+
+    Exemple : sucres 30 g et glucides 10 g -> True
+    """
+    sugars_above_carbs = df["sugars_100g"] > df["carbohydrates_100g"] + SUGARS_TOLERANCE
+    macro_sum = df[MACRO_COLUMNS].sum(axis=1)
+    total_above_max = macro_sum > TOTAL_MAX
+    zero_kcal_with_fat = (df["energy-kcal_100g"] == 0) & (df["fat_100g"] >= FAT_MIN_FOR_ENERGY)
+    return sugars_above_carbs | total_above_max | zero_kcal_with_fat
+
 
 def prepare_data(df):
     """
@@ -205,4 +227,8 @@ def prepare_data(df):
 
     # 4. Doublons EN DERNIER : "la ligne la plus remplie" se mesure
     #    sur des valeurs déjà nettoyées.
-    return deduplicate_codes(df)
+    df = deduplicate_codes(df)
+
+    # 5. Drapeau de fiabilité : calculé sur les valeurs finales, rien n'est supprimé
+    df["is_incoherent"] = flag_incoherent(df)
+    return df
