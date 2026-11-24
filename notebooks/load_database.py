@@ -146,9 +146,10 @@ def insert_nutriments(cursor, df):
     return len(rows)
 
 
-def main():
-    print(f"Lecture de {PERIMETER_PATH}...")
-    df = prepare_data(pd.read_parquet(PERIMETER_PATH))
+def main(df=None):
+    if df is None:
+        print(f"Lecture de {PERIMETER_PATH}...")
+        df = prepare_data(pd.read_parquet(PERIMETER_PATH))
     print(f"{len(df):,} produits à charger")
 
     conn = psycopg2.connect(
