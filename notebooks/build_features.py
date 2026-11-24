@@ -1,6 +1,10 @@
 import pandas as pd
 import sys
+import hashlib
+import json
+
 from pathlib import Path
+from sklearn.model_selection import train_test_split
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
@@ -9,13 +13,6 @@ PERIMETER_PATH = PROJECT_ROOT / "data" / "food_perimeter.parquet"
 FEATURES_PATH = PROJECT_ROOT / "data" / "features.parquet"
 
 from src.cleaning import prepare_data
-
-print(f"-- Récupération du {PERIMETER_PATH} --")
-print("-"*50)
-df = prepare_data(pd.read_parquet(PERIMETER_PATH))
-print(f"Récupération effectuée...")
-print("-"*50)
-
 COLS = [
     'code',
     'product_name',
@@ -43,34 +40,77 @@ NUTRIENTS = [
 ]
 
 FEATURE = "food_group"
+SEED = 42
+TEST_SIZE = 0.2
 
-print(f"-- Nettoyage en cours --")
-print("-"*50)
+def export_features(df, export_to, force=False):
+    """Retire les lignes où le nutriscore_grade vide et garde les lignes cohérentes. Puis étale food_group, cela ajoute donc 9 colonnes. Pour finir changer le type du NS_g en category et float32 pour les nutriments afin de réduire l'espace en mémoire, ainsi fluidifié le chargement.
+    Création d'une colonne split 80/20 "train"/"test" par le biais de train_test_split().
+    """
+    if export_to.exists() and not force :
+        raise FileExistsError(f"{export_to} existe déjà. Relancer avec --force pour écraser le fichier.")
+    
+    df = df[df['nutriscore_grade'].notna() & ~df['is_incoherent']]
+    df = df[COLS]
+    df = pd.get_dummies(df, columns=[FEATURE])
 
-print(f"Retirer NutriScore manquant et les valeurs incohérentes")
-before = len(df)
-df = df[df['nutriscore_grade'].notna() & ~df['is_incoherent']]
-after = len(df)
-print(f"{before - after} lignes retirées")
+    df["nutriscore_grade"] = df["nutriscore_grade"].astype('category')
+    df[NUTRIENTS] = df[NUTRIENTS].astype('float32')
 
-print(f"Colonnes gardées : {COLS}")
-df = df[COLS]
+    df['split'] = "train" # par défaut, remplir la colonne par "train"
+    df = df.sort_values("code").reset_index(drop=True)
+    train_idx, test_idx = train_test_split(
+        df.index,
+        test_size=TEST_SIZE,
+        stratify= df['nutriscore_grade'],
+        random_state=SEED, # la graine par défaut, permet garder le même tirage.
+    )
+    df.loc[test_idx, "split"] = "test"
+    df.to_parquet(export_to, index=False)
+    export_json(df, export_to)
+    return len(df)
 
-print(f"Étalement de la colonne '{FEATURE}'")
-df = pd.get_dummies(df, columns=[FEATURE])
+def export_json(df : pd.DataFrame, export_to:Path):
+    """Créer un schéma .json avec :
+    - nom du fichier
+    - lignes
+    - les informations du split
+    - filtres
+    - sha256
+    - les règles d'usage
+    - source"""
+    content = export_to.read_bytes()
+    fingerprint = hashlib.sha256(content).hexdigest()
+    counts = pd.crosstab(df['nutriscore_grade'], df['split']).to_dict()
+    schema = {
+        "fichier" : export_to.name,
+        "lignes" : len(df),
+        "split" : {
+            "methode" : "train_test_split stratifié sur nutriscore_grade",
+            "graine" : SEED,
+            "part_test" : TEST_SIZE,
+            "effectifs" : counts,
+        },
+        "filtres" : [
+            "nutriscore_grade non vide",
+            "is_incoherent à False"
+        ],
+        "sha256" : fingerprint,
+        "regle_usage" : "fit sur le train seulement; le test n'est regardé qu'une fois, à la fin; la validation croisée se fait à l'intérieur du train.",
+        "source" : "Open Food Facts contributors, licence ODbL"
+    }
 
-print("Changements de type pour les colonnes")
-df["nutriscore_grade"] = df["nutriscore_grade"].astype('category')
-df[NUTRIENTS] = df[NUTRIENTS].astype('float32')
+    schema_path = export_to.parent / "schema.json"
 
-print("-"*50)
-print(f"Export en .parquet vers {FEATURES_PATH}")
-df.to_parquet(FEATURES_PATH, index=False)
-print("Export effectué...")
+    with open(schema_path, "w", encoding="utf-8") as file :
+        json.dump(schema, file, indent=4, ensure_ascii=False)
+    return True
 
-print("-"*50)
-print("Test de récupération du features.parquet")
-df = pd.read_parquet(FEATURES_PATH)
-print(f"Nombre de lignes : {len(df)}")
-print(f"Nombre de colonnes : {df.shape[1]}")
-print(f"Colonnes : {list(df.columns)}")
+def main():
+    
+    df = prepare_data(pd.read_parquet(PERIMETER_PATH))
+    export_features(df, FEATURES_PATH)
+
+
+if __name__ == "__main__" :
+    main()

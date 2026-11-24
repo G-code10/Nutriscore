@@ -20,21 +20,21 @@ NUTRIENTS = [
     "proteins_100g",
     "salt_100g",
 ]
+def parquet(df:pd.DataFrame, output_path) : 
 
-print("-- Préparation du parquet --")
-df = prepare_data(pd.read_parquet(PERIMETER_PATH))
+    df["nutriscore_grade"] = df["nutriscore_grade"].astype('category')
+    df["food_group"] = df["food_group"].astype('category')
+    df[NUTRIENTS] = df[NUTRIENTS].astype('float32')
 
-# category au lieu de str : équivalent de notre table "categories" en SQL permet de donner un id précis puisqu'il n'y a pas beaucoup de valeur différentes.
-print("-- Modification des types --")
-df["nutriscore_grade"] = df["nutriscore_grade"].astype('category')
-df["food_group"] = df["food_group"].astype('category')
-# float32 au lieu de float64 : nombre plus petit, moins précis, mais pèse moins en mémoire
-df[NUTRIENTS] = df[NUTRIENTS].astype('float32')
+    shutil.rmtree(output_path, ignore_errors=True)
+    df.to_parquet(output_path, partition_cols=['food_group'], index=False)
 
-print(f"-- Suppression du dossier : {OUTPUT_PATH} --")
-# Placer ici pour éviter que si le départ du script ne fonctionne pas, qu'il évite de supprimer le dossier perimeter_partitioned
-shutil.rmtree(OUTPUT_PATH, ignore_errors=True) # supprime le dossier et ce qu'il contient
-print("-- Partition du parquet --")
-df.to_parquet(OUTPUT_PATH, partition_cols=['food_group']) # partitionne par 'food_group' et créer donc 9 dossiers et 1 fichier dans chacun.
+    return len(df)
 
-print(f"-- Partition effectuée dans {OUTPUT_PATH} --")
+def main():
+    
+    df = prepare_data(pd.read_parquet(PERIMETER_PATH))
+    parquet(df, OUTPUT_PATH)
+
+if __name__ == "__main__" :
+    main()
